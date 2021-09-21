@@ -1,6 +1,6 @@
 import { EntityRepository, Repository } from "typeorm";
-import Usuario from "../app/models/Usuario";
+import Cargo from "../app/models/Cargo";
 
-@EntityRepository(Usuario)
-class UsuarioRepository extends Repository <Usuario>{}
-export default UsuarioRepository;
+@EntityRepository(Cargo)
+class CargoRepository extends Repository <Cargo>{}
+export default CargoRepository;
