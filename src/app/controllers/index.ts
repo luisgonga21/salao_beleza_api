@@ -11,7 +11,8 @@ import SalaoController from "./SalaoController";
 import PagarSalarioController from "./PagarSalarioController";
 import AgendamentoController from "./AgendamentoController";
 import LoginController from "./LoginController";
-
+import UsuarioController from "./UsuarioController";
+import TipoPagamentoController from "./TipoPagamentoController";
 
 export const TipoContacto_controller = TipoContactoController
 export const TipoUsuario_controller = TipoUsuarioController;
@@ -25,5 +26,5 @@ export const Salao_controller = SalaoController;
 export const PagarSalario_controller = PagarSalarioController;
 export const Agendamento_controller = AgendamentoController;
 export const Login_controller = LoginController;
-
-
+export const Usuario_controller = UsuarioController;
+export const TipoPagamento_controller = TipoPagamentoController
