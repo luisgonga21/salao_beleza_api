@@ -6,7 +6,7 @@ import {
       Municipio_controller,
       Bairro_controller,
       Endereco_controller,
-      //Cargo_controller,
+      Cargo_controller,
       Servico_controller,
       Salao_controller,
       PagarSalario_controller,
@@ -69,11 +69,11 @@ routes.delete("/endereco/:id", Endereco_controller.delete);
 
 
 // Cargo
-//routes.post("/cargo", Cargo_controller.store);
-//routes.get("/cargo", Cargo_controller.index);
-//routes.get("/cargo/:id", Cargo_controller.getOne);
-//routes.put("/cargo/:id", Cargo_controller.update);
-//routes.delete("/cargo/:id", Cargo_controller.delete);
+routes.post("/cargo", Cargo_controller.store);
+routes.get("/cargo", Cargo_controller.index);
+routes.get("/cargo/:id", Cargo_controller.getOne);
+routes.put("/cargo/:id", Cargo_controller.update);
+routes.delete("/cargo/:id", Cargo_controller.delete);
 
 
 // SERVIÇOS
