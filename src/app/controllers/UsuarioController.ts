@@ -18,14 +18,14 @@ class UsuarioController {
       };
       const  usuarioRepository = getCustomRepository(UsuarioRepository)
       const { name , dataNascimento, numeroBi } = req.body;
-      const existUsuario = await  usuarioRepository.findOne({ numeroBi })
+      const existUsuario = await  usuarioRepository.findOne({ name })
       if ( existUsuario) {
         return res.status(404).json({message:'usuário já existente!'})
       }
       const Usuario =  usuarioRepository.create({
         name,
-        numeroBi,
-        dataNascimento
+        //numeroBi,
+        //dataNascimento
       });
       await usuarioRepository.save(Usuario)
       return res.status(201).json(Usuario)
@@ -83,8 +83,8 @@ class UsuarioController {
           },
           {
             name, 
-            dataNascimento,
-            numeroBi
+            //dataNascimento,
+            //numeroBi
           })
         return res.status(201).json(result)
       }
