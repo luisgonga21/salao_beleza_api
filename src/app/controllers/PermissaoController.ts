@@ -55,7 +55,7 @@ class PermissaoController {
           return res.status(404).json("error!")
         }
       };
-    
+
       async update(req: Request, res: Response) {
         try {
           const schema = Yup.object().shape({
@@ -68,23 +68,19 @@ class PermissaoController {
           const { id } = req.params;
           const { name, description } = req.body
           const permissaoRepository = getCustomRepository(PermissaoRepository)
-          const existPermissao = await permissaoRepository.findOne({id})
-          if (existPermissao) {
-              const result= await  permissaoRepository.update({
-                id
-              },
-              {
-                name, 
-                description
-              })
-            return res.status(201).json(result)
+          const permissao = await permissaoRepository.findOne(id)
+          const updatedOnePermissao = 1
+          const Permissao= await  permissaoRepository.update({id},{name,description})
+          if (Permissao.affected === updatedOnePermissao) {
+            const permissaoUpdated = await permissaoRepository.findOne({ id }) 
+            return res.status(200).json({permissao, permissaoUpdated})
           }
           return res.status(404).json({ message: "Permissao não encontrado" })  
         }catch (error) {
           return res.status(404).json("error!")
         }
       };
-    
+
       async delete(req: Request, res: Response) {
         try {
           const {id} = req.params;
