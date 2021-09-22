@@ -209,81 +209,59 @@ export default routes;
 
 
 import { Column, 
-      CreateDateColumn, 
-      Entity,
-      JoinTable,
-      ManyToMany,
-      OneToMany, 
-      PrimaryGeneratedColumn, 
-      Timestamp, 
-      UpdateDateColumn 
-    } from "typeorm";
-     
-    @Entity("usuario")
-    class Usuario {
-      @PrimaryGeneratedColumn('uuid')
-      id: string;
-      
-      @Column({
-        type:'varchar',
-        nullable: false
-      } )
-      name: string;
-      
-      @Column({
-        type:'varchar',
-        nullable: false,
-        unique: true
-      })
-      contacto: string;
+  CreateDateColumn, 
+  Entity,
+  JoinTable,
+  ManyToMany,
+  OneToMany, 
+  PrimaryGeneratedColumn, 
+  Timestamp, 
+  UpdateDateColumn 
+} from "typeorm";
+ 
+
+@Entity("usuario")
+class Usuario {
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
   
-      @Column({
-          type:'varchar',
-          nullable: true,
-          unique: true
-      })
-      numeroBi: string;
+  @Column({
+    type:'varchar',
+    nullable: false
+  } )
+  name: string;
+
+  @Column({
+      type:'varchar',
+      nullable: false,
+      unique: true
+  })
+  numeroBi: string;
+
+  @Column({
+      type:'date',
+      nullable: false
+  })
+  dataNascimento: Date;
+
+  @Column('enum')
+  genero: "Masculino" | "Femenino";
+
+  @Column({
+      type:'enum',
+      nullable: true
+  })
+  estadoCivil: "Casado" | "Solteiro" | "Viúvo" | "Divorsiado";
   
-      @Column({
-          type:'date',
-          nullable: true
-      })
-      dataNascimento: Date;
-  
-      @Column({
-          type:'varchar',
-          nullable: true
-      })
-      nomeProduto: string;
-  
-      @Column({
-          type:'varchar',
-          nullable: true,
-          unique: true
-      })
-      nif: string;
-  
-      @Column({
-          type:'int',
-          nullable: true
-      })
-      precoProduto: Number;
-  
-      @Column({
-          type:'int',
-          nullable: true
-      })
-      quantidadeProduto: Number;
-      
-      @CreateDateColumn()
-      createdAt: Timestamp;
-    
-      @UpdateDateColumn()
-      updatedAt: Timestamp;
-    
-    }
-    
-    export default Usuario;
+  @CreateDateColumn()
+  createdAt: Timestamp;
+
+  @UpdateDateColumn()
+  updatedAt: Timestamp;
+
+}
+
+export default Usuario;
 
 
     import { Column, 

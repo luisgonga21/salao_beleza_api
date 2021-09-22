@@ -4,23 +4,18 @@ import {
     PrimaryGeneratedColumn, 
   } from "typeorm";
   
-  @Entity("cargo")
-  class Cargo {
+  
+  @Entity("tipoPagamento")
+  class TipoPagamento {
     @PrimaryGeneratedColumn('uuid')
     id: string;
     
     @Column({
       type:'varchar',
       nullable: false
-    } )
-    name: string;
-
-    @Column({
-        type:'int',
-        nullable: false
     })
-    salario: Number;
+    name: string;
   
   }
   
-  export default Cargo;
+  export default TipoPagamento;

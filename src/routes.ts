@@ -11,7 +11,9 @@ import {
       Salao_controller,
       PagarSalario_controller,
       Agendamento_controller,
-      Login_controller
+      Login_controller,
+      Usuario_controller,
+      TipoPagamento_controller
 } from "./app/controllers/index";
 
 const routes = Router();
@@ -109,6 +111,23 @@ routes.delete("/agendamento/:id", Agendamento_controller.delete);
 // LOGIN
 routes.post("/login", Login_controller.store);
 routes.get("/login", Login_controller.index);
+
+
+//USUARIO
+routes.post("/usuario", Usuario_controller.store);
+routes.get("/usuario", Usuario_controller.index);
+routes.get("/usuario/:id", Usuario_controller.getOne);
+routes.put("/usuario/:id", Usuario_controller.update);
+routes.delete("/usuario/:id", Usuario_controller.delete);
+
+
+
+// TIPO PAGAMENTO
+routes.post("/tipoPagamento", TipoPagamento_controller.store);
+routes.get("/tipoPagamento", TipoPagamento_controller.index);
+routes.get("/tipoPagamento/:id", TipoPagamento_controller.getOne);
+routes.put("/tipoPagamento/:id", TipoPagamento_controller.update);
+routes.delete("/tipoPagamento/:id", TipoPagamento_controller.delete);
 
 
 export default routes;

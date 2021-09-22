@@ -63,24 +63,23 @@ class CargoController {
 
   async update(req: Request, res: Response) {
     try {
-      const schema = Yup.object().shape({
-        name: Yup.string().required(),
-        salario: Yup.number().required(),
-      });
-      if(!(await schema.isValid(req.body))){
-        return res.status(400).json("error validator!");
-      };
+        const schema = Yup.object().shape({
+            name: Yup.string().required(),
+            salario: Yup.number().required(),
+          });
+          if(!(await schema.isValid(req.body))){
+              return res.status(400).json("error validator!");
+          };
       const { id } = req.params;
-      const { name, salario } = req.body
+      const { name } = req.body
       const cargoRepository = getCustomRepository(CargoRepository)
-      const existCargo = await cargoRepository.findOne({ id })
+      const existCargo = await cargoRepository.findOne({id})
       if (existCargo) {
           const result= await  cargoRepository.update({
             id
           },
           {
             name, 
-            salario,
           })
         return res.status(201).json(result)
       }
@@ -92,7 +91,7 @@ class CargoController {
 
   async delete(req: Request, res: Response) {
     try {
-      const { id } = req.params;
+      const {id} = req.params;
       const cargoRepository = getCustomRepository(CargoRepository)
       const existCargo = await cargoRepository.findOne({ id })
       if (existCargo) {
@@ -108,4 +107,3 @@ class CargoController {
 
 
 export default new CargoController;
-
