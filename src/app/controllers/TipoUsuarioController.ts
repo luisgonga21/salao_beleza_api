@@ -2,6 +2,7 @@ import 'reflect-metadata'
 import { Request, Response } from 'express'
 import {getCustomRepository} from 'typeorm'
 import TipoUsuarioRepository from '../../repositories/TipoUsuarioRepository';
+import PermissaoRepository from '../../repositories/PermissaoRepository';
 import * as Yup from "yup";
 
 
@@ -15,15 +16,18 @@ class TipoUsuarioController {
       if(!(await schema.isValid(req.body))){
           return res.status(400).json("error validator!");
       };
+      const permissaoRepository = getCustomRepository(PermissaoRepository)
       const  tipoUsuarioRepository = getCustomRepository(TipoUsuarioRepository)
-      const { name ,description } = req.body;
+      const { name ,description, permissao } = req.body;
       const existTipoUsuario = await  tipoUsuarioRepository.findOne({ name })
       if ( existTipoUsuario) {
         return res.status(404).json({message:'Tipo de usuário já existente!'})
       }
+      const existePermissao = await permissaoRepository.findByIds(permissao)
       const TipoUsuario =  tipoUsuarioRepository.create({
         name,
         description,
+        permissao: existePermissao,
       });
       await tipoUsuarioRepository.save(TipoUsuario)
       return res.status(201).json(TipoUsuario)
