@@ -8,6 +8,7 @@ import { Column,
   Timestamp, 
   UpdateDateColumn 
 } from "typeorm";
+import Permissao from "./Permissao";
  
 @Entity("tipoUsuario")
 class TipoUsuario {
@@ -25,6 +26,14 @@ class TipoUsuario {
     nullable: true
   })
   description: string;
+
+  @ManyToMany(() => Permissao)
+  @JoinTable({
+      name: "permissao_tipoUsuario",
+      joinColumns: [{name: "tipoUsuario_id"}],
+      inverseJoinColumns: [{name: "permissao_id"}]
+  })
+  permissao: Permissao[];
   
   @CreateDateColumn()
   createdAt: Timestamp;
