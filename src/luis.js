@@ -301,3 +301,28 @@ export default Usuario;
     }
     
     export default Turno;
+
+    async update(req: Request, res: Response) {
+      try {
+        const schema = Yup.object().shape({
+          name: Yup.string().required(),
+          salario: Yup.number().required(),
+        });
+        if(!(await schema.isValid(req.body))){
+          return res.status(400).json("error validator!");
+        };
+        const { id } = req.params;
+        const { name, salario } = req.body
+        const cargoRepository = getCustomRepository(CargoRepository)
+        const cargo = await cargoRepository.findOne(id)
+        const updatedOneCargo = 1
+        const Cargo= await  cargoRepository.update({id},{name,salario})
+        if (Cargo.affected === updatedOneCargo) {
+          const cargoUpdated = await cargoRepository.findOne({ id }) 
+          return res.status(200).json({cargo, cargoUpdated})
+        }
+        return res.status(404).json({ message: "Cargo não encontrado" })  
+      }catch (error) {
+        return res.status(404).json("error!")
+      }
+    };
