@@ -302,6 +302,10 @@ export default Usuario;
     
     export default Turno;
 
+,
+	"permissao": [
+		"5e610ee3-8ed1-4cf3-a0cc-9c075227dc6f"
+		]
     async update(req: Request, res: Response) {
       try {
         const schema = Yup.object().shape({
