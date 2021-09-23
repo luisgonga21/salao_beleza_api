@@ -13,7 +13,8 @@ import {
       Agendamento_controller,
       Login_controller,
       Usuario_controller,
-      TipoPagamento_controller
+      TipoPagamento_controller,
+      Permissao_controller
 } from "./app/controllers/index";
 
 const routes = Router();
@@ -128,6 +129,14 @@ routes.get("/tipoPagamento", TipoPagamento_controller.index);
 routes.get("/tipoPagamento/:id", TipoPagamento_controller.getOne);
 routes.put("/tipoPagamento/:id", TipoPagamento_controller.update);
 routes.delete("/tipoPagamento/:id", TipoPagamento_controller.delete);
+
+
+// Permissão
+routes.post("/permissao", Permissao_controller.store);
+routes.get("/permissao", Permissao_controller.index);
+routes.get("/permissao/:id", Permissao_controller.getOne);
+routes.put("/permissao/:id", Permissao_controller.update);
+routes.delete("/permissao/:id", Permissao_controller.delete);
 
 
 export default routes;
