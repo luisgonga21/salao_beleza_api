@@ -12,17 +12,23 @@ import { Column,
     @PrimaryGeneratedColumn('uuid')
     id: string;
     
-    @CreateDateColumn({
+    @Column({
         type:'date',
         nullable: false
     })
     dataAgendamento: Date;
 
-    @CreateDateColumn({
+    @Column({
         type:'date',
         nullable: true
     })
     cancelamento: Date;
+
+    @CreateDateColumn()
+    createdAt: Timestamp;
+  
+    @UpdateDateColumn()
+    updatedAt: Timestamp;
   
   }
   
