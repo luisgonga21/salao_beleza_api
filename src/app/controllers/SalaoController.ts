@@ -73,16 +73,12 @@ class SalaoController {
       const { id } = req.params;
       const { name, nif } = req.body
       const salaoRepository = getCustomRepository(SalaoRepository)
-      const existSalao = await salaoRepository.findOne({ id })
-      if (existSalao) {
-          const result= await  salaoRepository.update({
-            id
-          },
-          {
-            name, 
-            nif,
-          })
-        return res.status(201).json(result)
+      const salao = await salaoRepository.findOne(id)
+      const updateOneSalao = 1
+      const Salao= await  salaoRepository.update({id},{name, nif})
+      if(Salao.affected === updateOneSalao) {
+        const salaoUpdate = await salaoRepository.findOne({id})
+        return res.status(200).json({salao, salaoUpdate})
       }
       return res.status(404).json({ message: "Salao não encontrado" })  
     }catch (error) {
