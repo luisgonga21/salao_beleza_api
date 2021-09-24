@@ -9,23 +9,23 @@ class PagarSalarioController {
   async store(req: Request, res: Response) {
     try {
       const schema = Yup.object().shape({
-        valorPago: Yup.number().required(),
-        valorFalta: Yup.number().required(),
-        dataPagamento: Yup.date().required()
+        numeroTransacao: Yup.string(),
+        valorPago: Yup.number().required()
       });
       if(!(await schema.isValid(req.body))){
-          return res.status(400).json("error validator!");
+        return res.status(400).json("error validator!");
       };
       const  pagarSalarioRepository = getCustomRepository(PagarSalarioRepository)
-      const { valorPago, valorFalta, dataPagamento } = req.body;
-      const existPagarSalario = await  pagarSalarioRepository.findOne({ dataPagamento })
+      const { valorPago, numeroTransacao } = req.body;
+      const existPagarSalario = await  pagarSalarioRepository.findOne({ valorPago })
       if (existPagarSalario) {
-        return res.status(404).json({message:'PagarSalario já existente!'})
+        return res.status(404).json({message:'Salario já existente!'})
       }
+      const recebe = valorPago
       const PagarSalario =  pagarSalarioRepository.create({
         valorPago, 
-        valorFalta,
-        dataPagamento
+        valorFalta: recebe*2,
+        numeroTransacao
       });
       await pagarSalarioRepository.save(PagarSalario)
       return res.status(201).json(PagarSalario)
@@ -66,29 +66,23 @@ class PagarSalarioController {
   async update(req: Request, res: Response) {
     try {
       const schema = Yup.object().shape({
-        name: Yup.string().required(),
-        nif: Yup.string().required(),
-        dataPagamento: Yup.date().required()
+        numeroTransacao: Yup.string(),
+        valorPago: Yup.number().required()
       });
       if(!(await schema.isValid(req.body))){
         return res.status(400).json("error validator!");
       };
       const { id } = req.params;
-      const { valorFalta, valorPago, dataPagamento } = req.body
+      const { valorPago, numeroTransacao } = req.body
       const pagarSalarioRepository = getCustomRepository(PagarSalarioRepository)
-      const existPagarSalario = await pagarSalarioRepository.findOne({ id })
-      if (existPagarSalario) {
-          const result= await  pagarSalarioRepository.update({
-            id
-          },
-          {
-            valorFalta,
-            valorPago,
-            dataPagamento
-          })
-        return res.status(201).json(result)
+      const pagarSalario = await pagarSalarioRepository.findOne(id)
+      const updateOndePagarSalario = 1
+      const PagarSalario= await  pagarSalarioRepository.update({id},{numeroTransacao, valorPago})
+      if(PagarSalario.affected === updateOndePagarSalario) {
+        const pagarSalarioUpdate = await pagarSalarioRepository.findOne({id})
+        return res.status(200).json({pagarSalario, pagarSalarioUpdate})
       }
-      return res.status(404).json({ message: "PagarSalario não encontrado" })  
+      return res.status(404).json({ message: "Pagar Salario não encontrado" })  
     }catch (error) {
       return res.status(404).json("error!")
     }
