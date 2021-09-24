@@ -84,16 +84,12 @@ class MunicipioController {
       const { id } = req.params;
       const { name, description } = req.body
       const municipioRepository = getCustomRepository(MunicipioRepository)
-      const existMunicipio = await municipioRepository.findOne({id})
-      if (existMunicipio) {
-          const result= await  municipioRepository.update({
-            id
-          },
-          {
-            name, 
-            description
-          })
-        return res.status(201).json(result)
+      const municipio = await municipioRepository.findOne( id )
+      const updateOndeMunicipio = 1
+      const Municipio= await  municipioRepository.update({id},{name,description})
+      if(Municipio.affected === updateOndeMunicipio) {
+        const municipioUpdate = await municipioRepository.findOne({id})
+        return res.status(200).json({municipio, municipioUpdate})
       }
       return res.status(404).json({ message: "Municipio não encontrado" })  
     }catch (error) {
