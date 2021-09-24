@@ -73,16 +73,12 @@ class ServicoController {
       const { id } = req.params;
       const { name, preco } = req.body
       const servicoRepository = getCustomRepository(ServicoRepository)
-      const existServico = await servicoRepository.findOne({ id })
-      if (existServico) {
-          const result= await  servicoRepository.update({
-            id
-          },
-          {
-            name, 
-            preco,
-          })
-        return res.status(201).json(result)
+      const servico = await servicoRepository.findOne(id)
+      const updateServico = 1
+      const Servico= await  servicoRepository.update({id},{name, preco})
+      if(Servico.affected === updateServico) {
+        const servicoUpdate = await servicoRepository.findOne({id})
+        return res.status(200).json({servico, servicoUpdate})
       }
       return res.status(404).json({ message: "Servico não encontrado" })  
     }catch (error) {
