@@ -80,15 +80,12 @@ class BairroController {
       const { id } = req.params;
       const { name } = req.body
       const bairroRepository = getCustomRepository(BairroRepository)
-      const existBairro = await bairroRepository.findOne({id})
-      if (existBairro) {
-          const result= await  bairroRepository.update({
-            id
-          },
-          {
-            name, 
-          })
-        return res.status(201).json(result)
+      const bairro = await bairroRepository.findOne(id)
+      const updateOneBairro = 1
+      const Bairro= await  bairroRepository.update({id},{name})
+      if (Bairro.affected === updateOneBairro) {
+        const bairroUpdated = await bairroRepository.findOne({ id }) 
+        return res.status(200).json({bairro, bairroUpdated})
       }
       return res.status(404).json({ message: "Bairro não encontrado" })  
     }catch (error) {
