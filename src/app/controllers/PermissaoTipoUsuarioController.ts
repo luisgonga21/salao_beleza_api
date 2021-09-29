@@ -22,13 +22,7 @@ class PermissaoTipoUsuarioController {
     }
 
     async store(req: Request, res: Response) {
-        const schema = Yup.object().shape({
-            permissaoId: Yup.string(),
-            tipoUsuarioId: Yup.string(),
-        });
-        if(!(await schema.isValid(req.body))){
-            return res.status(400).json("error validação!");
-        };
+
         try {
             const permissaoTipoUsuarioRepository = getCustomRepository(PermissaoTipoUsuarioRepository);
             const permissaoRepository = getCustomRepository(PermissaoRepository)
@@ -90,7 +84,7 @@ class PermissaoTipoUsuarioController {
         const permissaoTipoUsuarioRepository = getCustomRepository(PermissaoTipoUsuarioRepository);
         const { id } = req.params;
         const { permissaoId } = req.body;
-        const permissaoTipoUsuario = await permissaoTipoUsuarioRepository.findOne({id});
+        const permissaoTipoUsuario = await permissaoTipoUsuarioRepository.findOne({ id });
         if(permissaoTipoUsuario){
             const result = await permissaoTipoUsuarioRepository.update(
                 { id: id },
@@ -109,10 +103,10 @@ class PermissaoTipoUsuarioController {
         try{
             const permissaoTipoUsuarioRepository = getCustomRepository(PermissaoTipoUsuarioRepository);
             const { id } = req.params;
-            const permissaoTipoUsuario = (await permissaoTipoUsuarioRepository.findOne({id})) ;
-            if (permissaoTipoUsuario) {
+            const TipoUsuario = await permissaoTipoUsuarioRepository.findOne({id});
+            if (TipoUsuario) {
                 const result = await permissaoTipoUsuarioRepository.delete(id);
-                return res.status(200).json({ message: "Permissão do Tipo de Usuario Alterado com sucesso!" });
+                return res.status(200).json({ message: "Permissão do Tipo de Usuario Eliminado com sucesso!"});
             }
             return res.status(401).json({ error: "Permissão do Tipo de Usuario não encontrada!" });    
         } 
