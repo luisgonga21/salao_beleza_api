@@ -1,11 +1,8 @@
 import 'reflect-metadata'
 import { Column, 
-  CreateDateColumn, 
   Entity,
   OneToMany, 
   PrimaryGeneratedColumn, 
-  Timestamp, 
-  UpdateDateColumn 
 } from "typeorm";
  
 @Entity("tipoFicheiro")
