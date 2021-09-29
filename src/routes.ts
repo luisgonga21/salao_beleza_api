@@ -15,7 +15,8 @@ import {
       Usuario_controller,
       TipoPagamento_controller,
       Permissao_controller,
-      PermissaoTipoUsuario_controller
+      PermissaoTipoUsuario_controller,
+      TipoFicheiro_controller
 } from "./app/controllers/index";
 
 const routes = Router();
@@ -146,6 +147,14 @@ routes.get("/permissaoTipoUsuario", PermissaoTipoUsuario_controller.index);
 routes.get("/permissaoTipoUsuario/:id", PermissaoTipoUsuario_controller.getOne);
 routes.put("/permissaoTipoUsuario/:id", PermissaoTipoUsuario_controller.update);
 routes.delete("/permissaoTipoUsuario/:id", PermissaoTipoUsuario_controller.delete);
+
+
+// TIPO DE FICHEIRO
+routes.post("/tipoFicheiro", TipoFicheiro_controller.store);
+routes.get("/tipoFicheiro", TipoFicheiro_controller.index);
+routes.get("/tipoFicheiro/:id", TipoFicheiro_controller.getOne);
+routes.put("/tipoFicheiro/:id", TipoFicheiro_controller.update);
+routes.delete("/tipoFicheiro/:id", TipoFicheiro_controller.delete);
 
 
 export default routes;
