@@ -115,7 +115,7 @@ routes.get("/login", Login_controller.index);
 
 
 //USUARIO
-routes.post("/usuario", Usuario_controller.store);
+routes.post("/usuario/:tipoUsuarioId", Usuario_controller.store);
 routes.get("/usuario", Usuario_controller.index);
 routes.get("/usuario/:id", Usuario_controller.getOne);
 routes.put("/usuario/:id", Usuario_controller.update);

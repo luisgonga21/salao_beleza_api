@@ -3,6 +3,7 @@ import { Request, Response } from 'express'
 import {getCustomRepository} from 'typeorm'
 import UsuarioRepository from '../../repositories/UsuarioRepository';
 import * as Yup from "yup";
+import TipoUsuarioRepository from '../../repositories/TipoUsuarioRepository';
 
 
 class UsuarioController {
@@ -13,26 +14,48 @@ class UsuarioController {
         numeroBi: Yup.string().required(),
         dataNascimento: Yup.string().required(),
         genero: Yup.string().required(),
-        estadoCivil: Yup.string()
+        estadoCivil: Yup.string(),
+        tipoUsuarioId: Yup.string(),
       });
       if(!(await schema.isValid(req.body))){
           return res.status(400).json("error validator!");
       };
+      const tipoUsuarioRepository = getCustomRepository(TipoUsuarioRepository)
       const  usuarioRepository = getCustomRepository(UsuarioRepository)
+      const { tipoUsuarioId } = req.params;
       const { name , dataNascimento, numeroBi, genero, estadoCivil } = req.body;
       const existUsuario = await  usuarioRepository.findOne({ numeroBi })
+      const ExisteTipoUsuario = await tipoUsuarioRepository.findOne({where: {id: tipoUsuarioId }})
       if ( existUsuario) {
         return res.status(404).json({message:'usuário já existente!'})
       }
-      const Usuario =  usuarioRepository.create({
-        name,
-        numeroBi,
-        dataNascimento,
-        estadoCivil,
-        genero
-      });
-      await usuarioRepository.save(Usuario)
-      return res.status(201).json(Usuario)
+      if (!ExisteTipoUsuario) {
+        return res.status(404).json({ message: 'Tipo Usuario não encontrado!!' })
+      }
+      if(ExisteTipoUsuario.name === "Funcionario"){
+        const Usuario =  usuarioRepository.create({
+          name,
+          numeroBi,
+          dataNascimento,
+          estadoCivil,
+          genero,
+          tipoUsuarioId
+        });
+        await usuarioRepository.save(Usuario)
+        return res.status(201).json(Usuario)
+      }
+      
+      if(ExisteTipoUsuario.name === "Cliente"){
+        const Usuario =  usuarioRepository.create({
+          name,
+          numeroBi,
+          dataNascimento,
+          genero,
+          tipoUsuarioId
+        });
+        await usuarioRepository.save(Usuario)
+        return res.status(201).json(Usuario)
+      }
     }catch (error) {
       return res.status(404).json("error!"+error)
     }
@@ -74,7 +97,7 @@ class UsuarioController {
         numeroBi: Yup.string().required(),
         dataNascimento: Yup.string().required(),
         genero: Yup.string().required(),
-        estadoCivil: Yup.string()
+        estadoCivil: Yup.string(),
       });
       if(!(await schema.isValid(req.body))){
           return res.status(400).json("error validator!");
