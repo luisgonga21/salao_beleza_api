@@ -10,6 +10,7 @@ import { Column,
   Timestamp, 
   UpdateDateColumn 
 } from "typeorm";
+import PermissaoTipoUsuario from "./PermissaoTipoUsuario";
 import Usuario from "./Usuario";
 @Entity("tipoUsuario")
 class TipoUsuario {
@@ -30,6 +31,9 @@ class TipoUsuario {
 
   @OneToMany(() => Usuario, (usuario) => usuario)
   Usuarios: Usuario[];
+
+  @OneToMany(() => PermissaoTipoUsuario, (permissaoTipoUsuario) => permissaoTipoUsuario)
+  PermissaoTipoUsuarios: PermissaoTipoUsuario[];
   
   @CreateDateColumn()
   createdAt: Timestamp;
