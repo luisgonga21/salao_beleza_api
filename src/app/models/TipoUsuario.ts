@@ -11,7 +11,6 @@ import { Column,
   UpdateDateColumn 
 } from "typeorm";
 import Usuario from "./Usuario";
-import Permissao from "./Permissao"
 @Entity("tipoUsuario")
 class TipoUsuario {
   @PrimaryGeneratedColumn('uuid')
@@ -31,12 +30,6 @@ class TipoUsuario {
 
   @OneToMany(() => Usuario, (usuario) => usuario)
   Usuarios: Usuario[];
-
-  @Column("uuid")
-  permissaoId: string;
-  @ManyToOne(() => Permissao, (permissao) => permissao, { eager: true })
-  @JoinColumn({ name: 'permissaoId' })
-  PermissaoId: Permissao;
   
   @CreateDateColumn()
   createdAt: Timestamp;

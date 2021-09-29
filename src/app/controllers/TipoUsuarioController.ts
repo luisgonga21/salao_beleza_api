@@ -11,22 +11,31 @@ class TipoUsuarioController {
       const schema = Yup.object().shape({
         name: Yup.string().required(),
         description: Yup.string(),
+        permissaoId: Yup.string()
       });
       if(!(await schema.isValid(req.body))){
           return res.status(400).json("error validator!");
       };
       const permissaoRepository = getCustomRepository(PermissaoRepository)
       const  tipoUsuarioRepository = getCustomRepository(TipoUsuarioRepository)
-      const { name ,description } = req.body;
+      const { name ,description, permissaoId } = req.body;
+      const TipoUsuarioExistPermissao = await tipoUsuarioRepository.findOne({
+        where: {name , permissaoId }
+      });
       const existTipoUsuario = await  tipoUsuarioRepository.findOne({ name })
-      if ( existTipoUsuario) {
+      const existPermissao = await  permissaoRepository.findOne({ name })
+      if(!existPermissao){
+        return res.status(400).json({ message: "Permissão Não encontrada!" });
+    }
+      if (existTipoUsuario) {
         return res.status(404).json({message:'Tipo de usuário já existente!'})
       }
-      // , permissao const existePermissao = await permissaoRepository.findByIds(permissao)
+      if(TipoUsuarioExistPermissao){
+        return res.status(400).json({ message: "O Tipo de Usuário já tem essa Permissão!" });
+      }
       const TipoUsuario =  tipoUsuarioRepository.create({
         name,
         description,
-        //permissao: existePermissao,
       });
       await tipoUsuarioRepository.save(TipoUsuario)
       return res.status(201).json(TipoUsuario)
@@ -69,6 +78,7 @@ class TipoUsuarioController {
       const schema = Yup.object().shape({
         name: Yup.string().required(),
         description: Yup.string(),
+        permissaoId: Yup.string()
       });
       if(!(await schema.isValid(req.body))){
           return res.status(400).json("error validator!");

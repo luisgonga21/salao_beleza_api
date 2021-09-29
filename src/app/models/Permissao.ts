@@ -4,7 +4,6 @@ import {
     OneToMany,
     PrimaryGeneratedColumn,
 } from "typeorm";
-import TipoUsuario from "./TipoUsuario";
 
 @Entity("permissao")
 class Permissao {
@@ -22,9 +21,6 @@ class Permissao {
         nullable: true
     })
     description: string;
-
-    @OneToMany(() => TipoUsuario, (tipoUsuario) => tipoUsuario)
-    TipoUsuarios: TipoUsuario[];
 
 }
 
