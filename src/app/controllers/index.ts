@@ -14,6 +14,8 @@ import LoginController from "./LoginController";
 import UsuarioController from "./UsuarioController";
 import TipoPagamentoController from "./TipoPagamentoController";
 import PermissaoController from "./PermissaoController";
+import PermissaoTipoUsuarioController from "./PermissaoTipoUsuarioController";
+
 
 export const TipoContacto_controller = TipoContactoController
 export const TipoUsuario_controller = TipoUsuarioController;
@@ -29,4 +31,5 @@ export const Agendamento_controller = AgendamentoController;
 export const Login_controller = LoginController;
 export const Usuario_controller = UsuarioController;
 export const TipoPagamento_controller = TipoPagamentoController;
-export const Permissao_controller = PermissaoController
+export const Permissao_controller = PermissaoController;
+export const PermissaoTipoUsuario_controller = PermissaoTipoUsuarioController
