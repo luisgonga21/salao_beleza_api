@@ -84,7 +84,13 @@ class PermissaoTipoUsuarioController {
         const permissaoTipoUsuarioRepository = getCustomRepository(PermissaoTipoUsuarioRepository);
         const { id } = req.params;
         const { permissaoId } = req.body;
+        const PermissaoTipoUsuarioExiste = await permissaoTipoUsuarioRepository.findOne({
+            where: { permissaoId, id }
+        });
         const permissaoTipoUsuario = await permissaoTipoUsuarioRepository.findOne({ id });
+        if(PermissaoTipoUsuarioExiste){
+            return res.status(400).json({ message: "O Tipo de Usuario já tem essa Permissão!" });
+        }
         if(permissaoTipoUsuario){
             const result = await permissaoTipoUsuarioRepository.update(
                 { id: id },
@@ -116,7 +122,6 @@ class PermissaoTipoUsuarioController {
     }
     
 }
-
 
 
 export default new PermissaoTipoUsuarioController;
