@@ -1,9 +1,6 @@
 import { Column, 
     CreateDateColumn, 
     Entity,
-    JoinTable,
-    ManyToMany,
-    OneToMany, 
     PrimaryGeneratedColumn, 
     Timestamp, 
     UpdateDateColumn 
@@ -52,7 +49,7 @@ import { Column,
         nullable: true,
         enum: EstadoCivil,
     })
-    estadicivil: EstadoCivil;
+    estadoCivil: EstadoCivil;
   
     @Column({
         type:'date',
