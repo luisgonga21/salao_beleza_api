@@ -8,6 +8,7 @@ import { Column,
   Timestamp, 
   UpdateDateColumn 
 } from "typeorm";
+import Usuario from "./Usuario";
 @Entity("tipoUsuario")
 class TipoUsuario {
   @PrimaryGeneratedColumn('uuid')
@@ -24,6 +25,9 @@ class TipoUsuario {
     nullable: true
   })
   description: string;
+
+  @OneToMany(() => Usuario, (usuario) => usuario)
+  Usuarios: Usuario[];
   
   @CreateDateColumn()
   createdAt: Timestamp;

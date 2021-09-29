@@ -1,10 +1,13 @@
 import { Column, 
     CreateDateColumn, 
     Entity,
+    JoinColumn,
+    ManyToOne,
     PrimaryGeneratedColumn, 
     Timestamp, 
     UpdateDateColumn 
   } from "typeorm";
+import TipoUsuario from "./TipoUsuario";
    
 
   export enum Genero {
@@ -56,6 +59,15 @@ import { Column,
         nullable: false
     })
     dataNascimento: Date;
+
+    @Column({
+      type: "uuid",
+      nullable: false,
+    })
+    tipoUsuarioId: string;
+    @ManyToOne(() => TipoUsuario, (tipousuario) => tipousuario, { eager: true })
+    @JoinColumn({ name: 'tipoUsuarioId' })
+    TipoUsuarioId: TipoUsuario;
   
     @CreateDateColumn()
     createdAt: Timestamp;
