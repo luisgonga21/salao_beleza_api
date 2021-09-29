@@ -16,7 +16,7 @@ import TipoPagamentoController from "./TipoPagamentoController";
 import PermissaoController from "./PermissaoController";
 import PermissaoTipoUsuarioController from "./PermissaoTipoUsuarioController";
 import TipoFicheiroController from "./TipoFicheiroController";
-
+import FicheiroController from "./FicheiroController";
 
 export const TipoContacto_controller = TipoContactoController
 export const TipoUsuario_controller = TipoUsuarioController;
@@ -35,3 +35,5 @@ export const TipoPagamento_controller = TipoPagamentoController;
 export const Permissao_controller = PermissaoController;
 export const PermissaoTipoUsuario_controller = PermissaoTipoUsuarioController
 export const TipoFicheiro_controller = TipoFicheiroController;
+export const Ficheiro_controller = FicheiroController;
+

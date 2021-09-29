@@ -1,3 +1,4 @@
+import multer  from "multer";
 import { Request, Response, Router } from "express";
 import {
       TipoContacto_controller,
@@ -16,14 +17,26 @@ import {
       TipoPagamento_controller,
       Permissao_controller,
       PermissaoTipoUsuario_controller,
-      TipoFicheiro_controller
+      TipoFicheiro_controller,
+      Ficheiro_controller
 } from "./app/controllers/index";
+import { multerconfig }  from "./config/multer";
 
 const routes = Router();
 
 routes.get("/", (req: Request, res: Response) => {
       return res.status(400).json({ message: "running well" });
 });
+
+const upload = multer(multerconfig);
+
+
+// FICHEIROS
+routes.post("/ficheiro", upload.single("file"),  Ficheiro_controller.store);
+routes.get("/ficheiro", Ficheiro_controller.index);
+routes.get("/ficheiro/:id", Ficheiro_controller.getOne);
+routes.put("/ficheiro/:id", upload.single("file"), Ficheiro_controller.update);
+routes.delete("/ficheiro/:id", Ficheiro_controller.delete);
 
 // TIPO Contacto
 routes.post("/tipocontacto", TipoContacto_controller.store);
