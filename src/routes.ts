@@ -19,7 +19,8 @@ import {
       PermissaoTipoUsuario_controller,
       TipoFicheiro_controller,
       Ficheiro_controller,
-      Contacto_controller
+      Contacto_controller,
+      Sessao_controller
 } from "./app/controllers/index";
 import { multerconfig }  from "./config/multer";
 
@@ -130,6 +131,9 @@ routes.post("/login", Login_controller.store);
 routes.get("/login", Login_controller.index);
 routes.put("/login/:id", Login_controller.update);
 
+
+//SESSÃO
+routes.post("/sessao", Sessao_controller.store);
 
 //USUARIO
 routes.post("/usuario/:tipoUsuarioId", Usuario_controller.store);

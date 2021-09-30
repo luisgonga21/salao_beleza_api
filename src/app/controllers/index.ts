@@ -18,6 +18,7 @@ import PermissaoTipoUsuarioController from "./PermissaoTipoUsuarioController";
 import TipoFicheiroController from "./TipoFicheiroController";
 import FicheiroController from "./FicheiroController";
 import ContactoController from "./ContactoController";
+import SessaoController from "./SessaoController";
 
 
 
@@ -41,5 +42,5 @@ export const PermissaoTipoUsuario_controller = PermissaoTipoUsuarioController
 export const TipoFicheiro_controller = TipoFicheiroController;
 export const Ficheiro_controller = FicheiroController;
 export const Contacto_controller = ContactoController;
-
+export const Sessao_controller = SessaoController;
 
