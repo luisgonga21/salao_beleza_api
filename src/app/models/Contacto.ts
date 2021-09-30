@@ -9,7 +9,7 @@ import {
   Timestamp, 
   UpdateDateColumn 
 } from "typeorm";
-//import TipoContacto from './TipoContacto';
+import TipoContacto from './TipoContacto';
 //import Usuario from './Usuario';
 
 
@@ -25,11 +25,14 @@ class Contacto {
   })
   description: string;
 
-  //@Column("uuid")
-  //tipoContactoId: string;
-  //@ManyToOne(() => TipoContacto, (tipoContacto) => tipoContacto, { eager: true })
-  //@JoinColumn({ name: 'tipoContactoId' })
-  //TipoContactoId: TipoContacto;
+  @Column({
+    type: "uuid",
+    nullable: false,
+  })
+  tipoContactoId: string;
+  @ManyToOne(() => TipoContacto, (tipoContacto) => tipoContacto, { eager: true })
+  @JoinColumn({ name: 'tipoContactoId' })
+  TipoContactoId: TipoContacto;
 
   //@Column({
   //  type: "uuid",
