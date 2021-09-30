@@ -10,7 +10,7 @@ import {
   UpdateDateColumn 
 } from "typeorm";
 import TipoContacto from './TipoContacto';
-//import Usuario from './Usuario';
+import Usuario from './Usuario';
 
 
 @Entity("contacto")
@@ -34,14 +34,14 @@ class Contacto {
   @JoinColumn({ name: 'tipoContactoId' })
   TipoContactoId: TipoContacto;
 
-  //@Column({
-  //  type: "uuid",
-  //  nullable: false,
-  //})
-  //usuarioId: string;
-  //@ManyToOne(() => Usuario, (usuario) => usuario,  { eager: true })
-  //@JoinColumn({ name: 'usuarioId' })
-  //UsuarioId: Usuario;
+  @Column({
+    type: "uuid",
+    nullable: false,
+  })
+  usuarioId: string;
+  @ManyToOne(() => Usuario, (usuario) => usuario,  { eager: true })
+  @JoinColumn({ name: 'usuarioId' })
+  UsuarioId: Usuario;
   
   @CreateDateColumn()
   createdAt: Timestamp;
