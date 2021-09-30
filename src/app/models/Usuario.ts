@@ -3,10 +3,12 @@ import { Column,
     Entity,
     JoinColumn,
     ManyToOne,
+    OneToOne,
     PrimaryGeneratedColumn, 
     Timestamp, 
     UpdateDateColumn 
   } from "typeorm";
+import Login from "./Login";
 import TipoUsuario from "./TipoUsuario";
    
 
@@ -68,6 +70,9 @@ import TipoUsuario from "./TipoUsuario";
     @ManyToOne(() => TipoUsuario, (tipousuario) => tipousuario, { eager: true })
     @JoinColumn({ name: 'tipoUsuarioId' })
     TipoUsuarioId: TipoUsuario;
+
+    @OneToOne(() => Login, (login) => login)
+    Login: Login[];
   
     @CreateDateColumn()
     createdAt: Timestamp;
