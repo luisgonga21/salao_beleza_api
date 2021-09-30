@@ -4,6 +4,7 @@ import { Column,
   OneToMany, 
   PrimaryGeneratedColumn, 
 } from "typeorm";
+import Ficheiro from './Ficheiro';
  
 @Entity("tipoFicheiro")
 class TipoFicheiro {
@@ -21,6 +22,9 @@ class TipoFicheiro {
     nullable: true
   })
   descricao: string;
+
+  @OneToMany(() => Ficheiro, (ficheiro) => ficheiro)
+  Ficheiros: Ficheiro[];
 
 }
 
