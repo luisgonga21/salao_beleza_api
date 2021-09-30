@@ -13,6 +13,7 @@ import {
 } from 'typeorm';
 import bcrypt from 'bcrypt';
 import Usuario from './Usuario';
+import Contacto from './Contacto';
   
   @Entity('login')
   class Login {
@@ -39,6 +40,15 @@ import Usuario from './Usuario';
     @OneToOne(() => Usuario, (usuario) => usuario,  { eager: true })
     @JoinColumn({ name: 'usuarioId' })
     UsuarioId: Usuario;
+
+    @Column({
+      type: 'uuid',
+      nullable: false
+    })
+    contactoId: string;
+    @OneToOne(() => Contacto, (contacto) => contacto, { eager: true })
+    @JoinColumn({ name: 'contactoId' })
+    Contacto: Contacto;
 
     
   }
