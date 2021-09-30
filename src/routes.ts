@@ -18,7 +18,8 @@ import {
       Permissao_controller,
       PermissaoTipoUsuario_controller,
       TipoFicheiro_controller,
-      Ficheiro_controller
+      Ficheiro_controller,
+      Contacto_controller
 } from "./app/controllers/index";
 import { multerconfig }  from "./config/multer";
 
@@ -168,6 +169,14 @@ routes.get("/tipoFicheiro", TipoFicheiro_controller.index);
 routes.get("/tipoFicheiro/:id", TipoFicheiro_controller.getOne);
 routes.put("/tipoFicheiro/:id", TipoFicheiro_controller.update);
 routes.delete("/tipoFicheiro/:id", TipoFicheiro_controller.delete);
+
+
+// CONTACTO
+routes.post("/contacto/:tipoContactoId", Contacto_controller.store);
+routes.get("/contacto", Contacto_controller.index);
+routes.get("/contacto/:id", Contacto_controller.getOne);
+routes.put("/contacto/:id", Contacto_controller.update);
+routes.delete("/contacto/:id", Contacto_controller.delete);
 
 
 export default routes;
