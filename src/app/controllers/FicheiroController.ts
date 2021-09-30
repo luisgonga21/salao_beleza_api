@@ -9,6 +9,7 @@ class FicheiroController {
     const schema = Yup.object().shape({
       name: Yup.string(),
       path:Yup.string(),
+      tipoFicheiroId: Yup.string()
     });
     if(!(await schema.isValid(req.body))){
       return res.status(400).json({ message: "error de validation!" });
@@ -16,10 +17,16 @@ class FicheiroController {
     try {
       const typeFicheiroRepository = getCustomRepository(TipoFicheiroRepository)
       const ficheiroRepository = getCustomRepository(FicheiroRepository)
+      const { tipoFicheiroId } = req.params
+      const ExistTipoFicheiro = typeFicheiroRepository.findOne({where: { id: tipoFicheiroId} })
       const { originalname: name, filename: path } = req.file;
+      if(!ExistTipoFicheiro) {
+        return res.status(404).json({message: "Tipo de ficheiro não existente!"})
+      }
       const ficheiro =  ficheiroRepository.create({
         name, 
-        path
+        path,
+        tipoFicheiroId
       });
       await ficheiroRepository.save(ficheiro)
       return res.status(201).json(ficheiro)

@@ -32,7 +32,7 @@ const upload = multer(multerconfig);
 
 
 // FICHEIROS
-routes.post("/ficheiro", upload.single("file"),  Ficheiro_controller.store);
+routes.post("/ficheiro/:tipoFicheiroId", upload.single("file"),  Ficheiro_controller.store);
 routes.get("/ficheiro", Ficheiro_controller.index);
 routes.get("/ficheiro/:id", Ficheiro_controller.getOne);
 routes.put("/ficheiro/:id", upload.single("file"), Ficheiro_controller.update);
