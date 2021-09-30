@@ -128,6 +128,7 @@ routes.delete("/agendamento/:id", Agendamento_controller.delete);
 // LOGIN
 routes.post("/login", Login_controller.store);
 routes.get("/login", Login_controller.index);
+routes.put("/login/:id", Login_controller.update);
 
 
 //USUARIO
