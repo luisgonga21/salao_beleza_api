@@ -1,13 +1,10 @@
 import { Column, 
     CreateDateColumn, 
     Entity,
-    OneToMany, 
     PrimaryGeneratedColumn, 
     Timestamp, 
     UpdateDateColumn 
   } from "typeorm";
-  
-  
   @Entity("endereco")
   class Endereco {
     @PrimaryGeneratedColumn('uuid')
@@ -15,9 +12,15 @@ import { Column,
     
     @Column({
       type:'varchar',
-      nullable: true
+      nullable: false
     })
-    description: string;
+    rua: string;
+
+    @Column({
+        type:'int',
+        nullable: false
+    })
+    numeroCasa: Number;
     
     @CreateDateColumn()
     createdAt: Timestamp;

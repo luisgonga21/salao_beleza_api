@@ -3,30 +3,30 @@ import { Request, Response } from 'express'
 import { getCustomRepository } from 'typeorm'
 import EnderecoRepository from '../../repositories/EnderecoRepository';
 import * as Yup from "yup";
-
-
 class EnderecoController {
   async store(req: Request, res: Response) {
+    const schema = Yup.object().shape({
+      rua: Yup.string().required(),
+      numeroCasa: Yup.number().required(),
+    });
+    if(!(await schema.isValid(req.body))){
+        return res.status(400).json("error validator!");
+    };
     try {
-      const schema = Yup.object().shape({
-        description: Yup.string(),
-      });
-      if(!(await schema.isValid(req.body))){
-          return res.status(400).json("error validator!");
-      };
       const  enderecoRepository = getCustomRepository(EnderecoRepository)
-      const { description } = req.body;
-      const existEndereco = await  enderecoRepository.findOne({ description })
-      if ( existEndereco) {
-        return res.status(404).json({message:'Endereco já existente!'})
-      }
+      const { rua, numeroCasa } = req.body;
+      //const existEndereco = await  enderecoRepository.findOne({where: { rua:rua && numeroCasa:numeroCasa } })
+      //if ( existEndereco) {
+      //  return res.status(404).json({message:'Endereco já existente!'})
+      //}
       const Endereco =  enderecoRepository.create({
-        description,
+        rua,
+        numeroCasa,
       });
       await enderecoRepository.save(Endereco)
       return res.status(201).json(Endereco)
     }catch (error) {
-      return res.status(404).json("error!"+error)
+      return res.status(404).json("error !"+error)
     }
   };
 
@@ -62,17 +62,18 @@ class EnderecoController {
   async update(req: Request, res: Response) {
     try {
       const schema = Yup.object().shape({
-        description: Yup.string(),
+        rua: Yup.string().required(),
+        numeroCasa: Yup.number().required(),
       });
       if(!(await schema.isValid(req.body))){
           return res.status(400).json("error validator!");
       };
       const { id } = req.params;
-      const { description } = req.body
+      const { rua, numeroCasa } = req.body
       const enderecoRepository = getCustomRepository(EnderecoRepository)
       const endereco = await enderecoRepository.findOne(id)
       const updateOneEndereco = 1
-      const Endereco= await  enderecoRepository.update({id},{description})
+      const Endereco= await  enderecoRepository.update({ id },{ rua, numeroCasa})
       if(Endereco.affected === updateOneEndereco) {
         const enderecoUpdate = await enderecoRepository.findOne({id})
         return res.status(200).json({endereco, enderecoUpdate})
