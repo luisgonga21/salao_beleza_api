@@ -73,16 +73,12 @@ class TipoContactoController {
       const { id } = req.params;
       const { name, description } = req.body
       const tipoContactoRepository = getCustomRepository(TipoContactoRepository)
-      const existTipoContacto = await tipoContactoRepository.findOne({id})
-      if (existTipoContacto) {
-          const result= await  tipoContactoRepository.update({
-            id
-          },
-          {
-            name, 
-            description
-          })
-        return res.status(201).json(result)
+      const tipoContacto = await tipoContactoRepository.findOne(id)
+      const updateTipoContacto = 1
+      const TipoContacto= await  tipoContactoRepository.update({id},{name, description})
+      if(TipoContacto.affected === updateTipoContacto) {
+        const tipoContactoUpdate = await tipoContactoRepository.findOne({id})
+        return res.status(200).json({tipoContacto, tipoContactoUpdate})
       }
       return res.status(404).json({ message: "Tipo de Contacto não encontrado" })  
     }catch (error) {

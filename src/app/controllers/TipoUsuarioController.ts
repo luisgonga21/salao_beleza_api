@@ -2,8 +2,8 @@ import 'reflect-metadata'
 import { Request, Response } from 'express'
 import {getCustomRepository} from 'typeorm'
 import TipoUsuarioRepository from '../../repositories/TipoUsuarioRepository';
+import PermissaoRepository from '../../repositories/PermissaoRepository';
 import * as Yup from "yup";
-
 
 class TipoUsuarioController {
   async store(req: Request, res: Response) {
@@ -18,7 +18,7 @@ class TipoUsuarioController {
       const  tipoUsuarioRepository = getCustomRepository(TipoUsuarioRepository)
       const { name ,description } = req.body;
       const existTipoUsuario = await  tipoUsuarioRepository.findOne({ name })
-      if ( existTipoUsuario) {
+      if (existTipoUsuario) {
         return res.status(404).json({message:'Tipo de usuário já existente!'})
       }
       const TipoUsuario =  tipoUsuarioRepository.create({
@@ -66,6 +66,7 @@ class TipoUsuarioController {
       const schema = Yup.object().shape({
         name: Yup.string().required(),
         description: Yup.string(),
+        permissaoId: Yup.string()
       });
       if(!(await schema.isValid(req.body))){
           return res.status(400).json("error validator!");
@@ -73,16 +74,12 @@ class TipoUsuarioController {
       const { id } = req.params;
       const { name, description } = req.body
       const tipoUsuarioRepository = getCustomRepository(TipoUsuarioRepository)
-      const existTipoUsuario = await tipoUsuarioRepository.findOne({id})
-      if (existTipoUsuario) {
-          const result= await  tipoUsuarioRepository.update({
-            id
-          },
-          {
-            name, 
-            description
-          })
-        return res.status(201).json(result)
+      const tipoUsuario = await tipoUsuarioRepository.findOne(id)
+      const updatedOneTipoUsuario = 1
+      const TipoUsuario= await  tipoUsuarioRepository.update({id},{name,description})
+      if (TipoUsuario.affected === updatedOneTipoUsuario) {
+        const tipoUsuarioUpdated = await tipoUsuarioRepository.findOne({ id }) 
+        return res.status(200).json({tipoUsuario, tipoUsuarioUpdated})
       }
       return res.status(404).json({ message: "Tipo de usuário não encontrado" })  
     }catch (error) {

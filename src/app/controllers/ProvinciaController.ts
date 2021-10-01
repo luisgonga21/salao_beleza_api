@@ -73,18 +73,14 @@ class ProvinciaController {
       const { id } = req.params;
       const { name, description } = req.body
       const provinciaRepository = getCustomRepository(ProvinciaRepository)
-      const existProvincia = await provinciaRepository.findOne({id})
-      if (existProvincia) {
-          const result= await  provinciaRepository.update({
-            id
-          },
-          {
-            name, 
-            description
-          })
-        return res.status(201).json(result)
+      const provincia = await provinciaRepository.findOne(id)
+      const updateOneProvincia = 1
+      const Provincia= await  provinciaRepository.update({id},{name,description})
+      if(Provincia.affected === updateOneProvincia){
+        const provinciaUpdated = await provinciaRepository.findOne({ id })
+        return res.status(200).json({provincia, provinciaUpdated})
       }
-      return res.status(404).json({ message: "Provincia não encontrado" })  
+      return res.status(404).json({ message: "Provincia não encontrada" })  
     }catch (error) {
       return res.status(404).json("error!")
     }

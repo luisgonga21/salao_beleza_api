@@ -6,17 +6,17 @@ module.exports = {
   async auth(req, res, next) {
     const authHeader = req.headers.authorization;
     if (!authHeader) {
-      return res.status(401).json({ error: "token nao e da credora!" });
+      return res.status(401).json({ error: "O token não é do funcionário!" });
     }
     const [, token] = authHeader.split(" ");
     try {
       const decoded = await promisify(jwt.verify)(token, authConfig.key);
-      const escolaId  = decoded;
-      req.escolaId = escolaId;
-      console.log("re.usuarioid ->", req.escolaId);
+      const usuarioId  = decoded;
+      req.usuarioId = usuarioId;
+      console.log("req.usuarioid ->", req.usuarioId);
       return next();
     } catch (err) {
-      return res.status(400).json({ error: "token invalido " });
+      return res.status(400).json({ error: "token inválido " });
     }
   },
 };

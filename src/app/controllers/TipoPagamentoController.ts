@@ -3,6 +3,7 @@ import { Request, Response } from 'express'
 import {getCustomRepository} from 'typeorm'
 import TipoPagamentoRepository from '../../repositories/TipoPagamentoRepository';
 import * as Yup from "yup";
+import TipoContacto from '../models/TipoContacto';
 
 
 class TipoPagamentoController {
@@ -71,15 +72,12 @@ class TipoPagamentoController {
       const { id } = req.params;
       const { name } = req.body
       const tipoPagamentoRepository = getCustomRepository(TipoPagamentoRepository)
-      const existTipoPagamento = await tipoPagamentoRepository.findOne({id})
-      if (existTipoPagamento) {
-          const result= await  tipoPagamentoRepository.update({
-            id
-          },
-          {
-            name, 
-          })
-        return res.status(201).json(result)
+      const tipoPagamento = await tipoPagamentoRepository.findOne(id)
+      const updateTipoPagamento= 1
+      const TipoPagamento= await  tipoPagamentoRepository.update({id},{name})
+      if(TipoPagamento.affected === updateTipoPagamento) {
+        const tipoPagamentoUpdate = await tipoPagamentoRepository.findOne({id})
+        return res.status(200).json({tipoPagamento, tipoPagamentoUpdate})
       }
       return res.status(404).json({ message: "Tipo Pagamento não encontrado" })  
     }catch (error) {

@@ -1,3 +1,4 @@
+import multer  from "multer";
 import { Request, Response, Router } from "express";
 import {
       TipoContacto_controller,
@@ -14,14 +15,30 @@ import {
       Login_controller,
       Usuario_controller,
       TipoPagamento_controller,
-      Permissao_controller
+      Permissao_controller,
+      PermissaoTipoUsuario_controller,
+      TipoFicheiro_controller,
+      Ficheiro_controller,
+      Contacto_controller,
+      Sessao_controller
 } from "./app/controllers/index";
+import { multerconfig }  from "./config/multer";
 
 const routes = Router();
 
 routes.get("/", (req: Request, res: Response) => {
       return res.status(400).json({ message: "running well" });
 });
+
+const upload = multer(multerconfig);
+
+
+// FICHEIROS
+routes.post("/ficheiro/:tipoFicheiroId", upload.single("file"),  Ficheiro_controller.store);
+routes.get("/ficheiro", Ficheiro_controller.index);
+routes.get("/ficheiro/:id", Ficheiro_controller.getOne);
+routes.put("/ficheiro/:id", upload.single("file"), Ficheiro_controller.update);
+routes.delete("/ficheiro/:id", Ficheiro_controller.delete);
 
 // TIPO Contacto
 routes.post("/tipocontacto", TipoContacto_controller.store);
@@ -112,10 +129,14 @@ routes.delete("/agendamento/:id", Agendamento_controller.delete);
 // LOGIN
 routes.post("/login", Login_controller.store);
 routes.get("/login", Login_controller.index);
+routes.put("/login/:id", Login_controller.update);
 
+
+//SESSÃO
+routes.post("/sessao", Sessao_controller.store);
 
 //USUARIO
-routes.post("/usuario", Usuario_controller.store);
+routes.post("/usuario/:tipoUsuarioId", Usuario_controller.store);
 routes.get("/usuario", Usuario_controller.index);
 routes.get("/usuario/:id", Usuario_controller.getOne);
 routes.put("/usuario/:id", Usuario_controller.update);
@@ -137,6 +158,30 @@ routes.get("/permissao", Permissao_controller.index);
 routes.get("/permissao/:id", Permissao_controller.getOne);
 routes.put("/permissao/:id", Permissao_controller.update);
 routes.delete("/permissao/:id", Permissao_controller.delete);
+
+
+// TIPO DE USURÁIO
+routes.post("/permissaoTipoUsuario", PermissaoTipoUsuario_controller.store);
+routes.get("/permissaoTipoUsuario", PermissaoTipoUsuario_controller.index);
+routes.get("/permissaoTipoUsuario/:id", PermissaoTipoUsuario_controller.getOne);
+routes.put("/permissaoTipoUsuario/:id", PermissaoTipoUsuario_controller.update);
+routes.delete("/permissaoTipoUsuario/:id", PermissaoTipoUsuario_controller.delete);
+
+
+// TIPO DE FICHEIRO
+routes.post("/tipoFicheiro", TipoFicheiro_controller.store);
+routes.get("/tipoFicheiro", TipoFicheiro_controller.index);
+routes.get("/tipoFicheiro/:id", TipoFicheiro_controller.getOne);
+routes.put("/tipoFicheiro/:id", TipoFicheiro_controller.update);
+routes.delete("/tipoFicheiro/:id", TipoFicheiro_controller.delete);
+
+
+// CONTACTO
+routes.post("/contacto/:tipoContactoId", Contacto_controller.store);
+routes.get("/contacto", Contacto_controller.index);
+routes.get("/contacto/:id", Contacto_controller.getOne);
+routes.put("/contacto/:id", Contacto_controller.update);
+routes.delete("/contacto/:id", Contacto_controller.delete);
 
 
 export default routes;

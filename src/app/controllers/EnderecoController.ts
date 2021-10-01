@@ -70,15 +70,12 @@ class EnderecoController {
       const { id } = req.params;
       const { description } = req.body
       const enderecoRepository = getCustomRepository(EnderecoRepository)
-      const existEndereco = await enderecoRepository.findOne({id})
-      if (existEndereco) {
-          const result= await  enderecoRepository.update({
-            id
-          },
-          {
-            description
-          })
-        return res.status(201).json(result)
+      const endereco = await enderecoRepository.findOne(id)
+      const updateOneEndereco = 1
+      const Endereco= await  enderecoRepository.update({id},{description})
+      if(Endereco.affected === updateOneEndereco) {
+        const enderecoUpdate = await enderecoRepository.findOne({id})
+        return res.status(200).json({endereco, enderecoUpdate})
       }
       return res.status(404).json({ message: "Endereco não encontrado" })  
     }catch (error) {

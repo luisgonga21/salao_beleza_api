@@ -1,4 +1,4 @@
 export default {
-  key: 'login16305091193o_empresaCompleto-loginestao-escolar-backend>  ',
-  expiresIn: '3d',
+  key: 'repositories-64546ghrg-675bvgrvdc-vb5g-5344gffv',
+  expiresIn: '90s',
 };
