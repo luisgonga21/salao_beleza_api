@@ -4,6 +4,7 @@ import { Column,
     JoinColumn,
     ManyToOne,
     OneToMany,
+    OneToOne,
     PrimaryGeneratedColumn, 
     Timestamp, 
     UpdateDateColumn 
@@ -11,6 +12,7 @@ import { Column,
 import Bairro from "./Bairro";
 import Municipio from "./Municipio";
 import Provincia from "./Provincia";
+import Salao from "./Salao";
 import Usuario from "./Usuario";
   @Entity("endereco")
   class Endereco {
@@ -58,6 +60,9 @@ import Usuario from "./Usuario";
 
     @OneToMany(() => Usuario, (usuario) => usuario)
     Usuarios: Usuario[];
+
+    @OneToOne(() => Salao, (salao) => salao)
+    Saloes: Salao[];
     
     @CreateDateColumn()
     createdAt: Timestamp;
