@@ -5,6 +5,7 @@ import UsuarioRepository from '../../repositories/UsuarioRepository';
 import * as Yup from "yup";
 import TipoUsuarioRepository from '../../repositories/TipoUsuarioRepository';
 import CargoRepository from '../../repositories/CargoRepository';
+import EnderecoRepository from '../../repositories/EnderecoRepository';
 
 
 class UsuarioController {
@@ -17,7 +18,8 @@ class UsuarioController {
         genero: Yup.string().required(),
         estadoCivil: Yup.string(),
         tipoUsuarioId: Yup.string(),
-        cargoId: Yup.string()
+        cargoId: Yup.string(),
+        enderecoId: Yup.string()
       });
       if(!(await schema.isValid(req.body))){
           return res.status(400).json("error validator!");
@@ -25,11 +27,13 @@ class UsuarioController {
       const tipoUsuarioRepository = getCustomRepository(TipoUsuarioRepository)
       const  usuarioRepository = getCustomRepository(UsuarioRepository)
       const  cargoRepository = getCustomRepository(CargoRepository)
+      const  enderecoRepository = getCustomRepository(EnderecoRepository)
       const { tipoUsuarioId } = req.params;
-      const { name , dataNascimento, numeroBi, genero, estadoCivil, cargoId } = req.body;
+      const { name , dataNascimento, numeroBi, genero, estadoCivil, cargoId, enderecoId } = req.body;
       const existUsuario = await  usuarioRepository.findOne({ numeroBi })
       const ExisteTipoUsuario = await tipoUsuarioRepository.findOne({where: {id: tipoUsuarioId }})
       const ExisteCargo = await cargoRepository.findOne({where: {id: cargoId }})
+      const ExisteEndereco = await enderecoRepository.findOne({where: {id: enderecoId}})
       if ( existUsuario) {
         return res.status(404).json({message:'usuário já existente!'})
       }
@@ -39,32 +43,34 @@ class UsuarioController {
       if (!ExisteCargo) {
         return res.status(404).json({ message: 'Cargo não encontrado!!' })
       }
-      if(ExisteTipoUsuario.name === "Funcionario"){
+      if (!ExisteEndereco) {
+        return res.status(404).json({message:'Endereço não encontrado!'})
+      }
+      if(ExisteTipoUsuario.name === "Cliente" || ExisteTipoUsuario.name === "Admin"){
         const Usuario =  usuarioRepository.create({
+          name,
+          numeroBi,
+          dataNascimento,
+          genero,
+          tipoUsuarioId,
+          cargoId: null,
+          enderecoId
+        });
+        await usuarioRepository.save(Usuario)
+        return res.status(201).json(Usuario)
+      }
+      const Usuario =  usuarioRepository.create({
           name,
           numeroBi,
           dataNascimento,
           estadoCivil,
           genero,
           tipoUsuarioId,
-          cargoId
-        });
-        await usuarioRepository.save(Usuario)
-        return res.status(201).json(Usuario)
-      }
-      
-      if(ExisteTipoUsuario.name === "Cliente"){
-        const Usuario =  usuarioRepository.create({
-          name,
-          numeroBi,
-          dataNascimento,
-          genero,
-          tipoUsuarioId,
-          cargoId: null
-        });
-        await usuarioRepository.save(Usuario)
-        return res.status(201).json(Usuario)
-      }
+          cargoId,
+          enderecoId
+      });
+      await usuarioRepository.save(Usuario)
+      return res.status(201).json(Usuario)
     }catch (error) {
       return res.status(404).json("error!"+error)
     }
@@ -108,7 +114,8 @@ class UsuarioController {
         genero: Yup.string().required(),
         estadoCivil: Yup.string(),
         cargoId: Yup.string(),
-        tipoUsuarioId: Yup.string()
+        tipoUsuarioId: Yup.string(),
+        enderecoId: Yup.string()
       });
       if(!(await schema.isValid(req.body))){
           return res.status(400).json("error validator!");

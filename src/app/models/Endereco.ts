@@ -3,6 +3,7 @@ import { Column,
     Entity,
     JoinColumn,
     ManyToOne,
+    OneToMany,
     PrimaryGeneratedColumn, 
     Timestamp, 
     UpdateDateColumn 
@@ -10,6 +11,7 @@ import { Column,
 import Bairro from "./Bairro";
 import Municipio from "./Municipio";
 import Provincia from "./Provincia";
+import Usuario from "./Usuario";
   @Entity("endereco")
   class Endereco {
     @PrimaryGeneratedColumn('uuid')
@@ -53,6 +55,9 @@ import Provincia from "./Provincia";
     @ManyToOne(() => Bairro, (bairro) => bairro, { eager: true })
     @JoinColumn({ name: 'bairroId' })
     BairroId: Bairro;
+
+    @OneToMany(() => Usuario, (usuario) => usuario)
+    Usuarios: Usuario[];
     
     @CreateDateColumn()
     createdAt: Timestamp;

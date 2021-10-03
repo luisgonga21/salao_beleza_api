@@ -9,6 +9,7 @@ import { Column,
     UpdateDateColumn 
   } from "typeorm";
 import Cargo from "./Cargo";
+import Endereco from "./Endereco";
 import Login from "./Login";
 import TipoUsuario from "./TipoUsuario";
    
@@ -80,6 +81,15 @@ import TipoUsuario from "./TipoUsuario";
     @ManyToOne(() => Cargo, (cargo) => cargo, { eager: true })
     @JoinColumn({ name: 'cargoId' })
     CargoId: Cargo;
+
+    @Column({
+      type: "uuid",
+      nullable: false,
+    })
+    enderecoId: string;
+    @ManyToOne(() => Endereco, (endereco) => endereco, { eager: true })
+    @JoinColumn({ name: 'enderecoId' })
+    EnderecoId: Endereco;
 
     @OneToOne(() => Login, (login) => login)
     Login: Login[];
