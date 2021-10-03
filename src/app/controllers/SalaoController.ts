@@ -52,7 +52,7 @@ class SalaoController {
       await salaoRepository.save(Salao)
       return res.status(201).json(Salao)
     }catch (error) {
-      return res.status(404).json("error!"+error)
+      return res.status(404).json("error -->!"+error)
     }
   };
 
