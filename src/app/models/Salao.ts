@@ -21,11 +21,38 @@ import { Column,
     name: string;
 
     @Column({
+        type:'int',
+        nullable: false,
+        unique: true
+    })
+    nif: number;
+
+    @Column({
+        type:'int',
+        nullable: false,
+        unique: true
+    })
+    telefone1: number;
+
+    @Column({
+        type:'int',
+        nullable: false,
+        unique: true
+    })
+    telefone2: number;
+
+    @Column({
         type:'varchar',
         nullable: false,
         unique: true
     })
-    nif: string;
+    email: string;
+
+    @Column({
+        type:'int',
+        nullable: false,
+    })
+    quantidadeFuncionario: number;
     
     @CreateDateColumn()
     createdAt: Timestamp;
