@@ -7,6 +7,7 @@ import { Column,
     Timestamp, 
     UpdateDateColumn 
   } from "typeorm";
+import Bairro from "./Bairro";
 import Municipio from "./Municipio";
 import Provincia from "./Provincia";
   @Entity("endereco")
@@ -43,6 +44,15 @@ import Provincia from "./Provincia";
     @ManyToOne(() => Municipio, (municipio) => municipio, { eager: true })
     @JoinColumn({ name: 'municipioId' })
     MunicipioId: Municipio;
+
+    @Column({
+      type: "uuid",
+      nullable: false,
+    })
+    bairroId: string;
+    @ManyToOne(() => Bairro, (bairro) => bairro, { eager: true })
+    @JoinColumn({ name: 'bairroId' })
+    BairroId: Bairro;
     
     @CreateDateColumn()
     createdAt: Timestamp;

@@ -8,6 +8,7 @@ import { Column,
     Timestamp, 
     UpdateDateColumn 
   } from "typeorm";
+import Endereco from "./Endereco";
 import Municipio from "./Municipio";
   
   
@@ -30,6 +31,9 @@ import Municipio from "./Municipio";
     @ManyToOne(() => Municipio, (municipio) => municipio, { eager: true })
     @JoinColumn({ name: 'municipioId' })
     MunicipioId: Municipio;
+
+    @OneToMany(() => Endereco, (endereco) => endereco)
+    Enderecos: Endereco[];
     
     @CreateDateColumn()
     createdAt: Timestamp;
