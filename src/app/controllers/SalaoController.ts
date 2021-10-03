@@ -3,6 +3,7 @@ import { Request, Response } from 'express'
 import { getCustomRepository } from 'typeorm'
 import SalaoRepository from '../../repositories/SalaoRepository';
 import * as Yup from "yup";
+import EnderecoRepository from '../../repositories/EnderecoRepository';
 
 
 class SalaoController {
@@ -21,6 +22,7 @@ class SalaoController {
     };
     try {
       const salaoRepository = getCustomRepository(SalaoRepository)
+      const enderecoRepository = getCustomRepository(EnderecoRepository)
       const { 
         name, 
         nif, 
@@ -30,7 +32,11 @@ class SalaoController {
         quantidadeFuncionario, 
         enderecoId 
       } = req.body
+      const ExisteEndereco = await enderecoRepository.findOne({where: {id: enderecoId }})
       const existSalao = await  salaoRepository.findOne({ nif })
+      if (!ExisteEndereco) {
+        return res.status(404).json({message:'Endereço não encontrado!'})
+      }
       if (existSalao) {
         return res.status(404).json({message:'Salao já existente!'})
       }
