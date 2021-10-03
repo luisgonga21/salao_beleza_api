@@ -8,6 +8,7 @@ import { Column,
     UpdateDateColumn 
   } from "typeorm";
 import Municipio from "./Municipio";
+import Provincia from "./Provincia";
   @Entity("endereco")
   class Endereco {
     @PrimaryGeneratedColumn('uuid')
@@ -24,6 +25,15 @@ import Municipio from "./Municipio";
         nullable: false
     })
     numeroCasa: Number;
+
+    @Column({
+      type: "uuid",
+      nullable: false,
+    })
+    provinciaId: string;
+    @ManyToOne(() => Provincia, (provincia) => provincia, { eager: true })
+    @JoinColumn({ name: 'provinciaId' })
+    ProvinciaId: Provincia;
 
     @Column({
       type: "uuid",
