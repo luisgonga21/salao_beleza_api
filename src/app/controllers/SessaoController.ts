@@ -23,14 +23,6 @@ class SessaoController {
     const usuario = await usuarioRepository.findOne({
       where: { id: contactoExists.usuarioId },
     });
-
-    //const typeentity = await typeentityRepository.findOne({
-    //  where: { id: entity?.typeentityId },
-    //});
-
-    //if (typeentity?.description.toLocaleLowerCase() === 'salão') {
-    //  return res.status(401).json({ errror: 'Login não autorizado!' });
-    //}
     const login = await loginRepository.findOne({
       where: { usuarioId: contactoExists.usuarioId },
     });
