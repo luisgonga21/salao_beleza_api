@@ -3,25 +3,45 @@ import { Request, Response } from 'express'
 import { getCustomRepository } from 'typeorm'
 import EnderecoRepository from '../../repositories/EnderecoRepository';
 import * as Yup from "yup";
+import ProvinciaRepository from '../../repositories/ProvinciaRepository';
+import MunicipioRepository from '../../repositories/MunicipioRepository';
+import BairroRepository from '../../repositories/BairroRepository';
 class EnderecoController {
   async store(req: Request, res: Response) {
     const schema = Yup.object().shape({
       rua: Yup.string().required(),
       numeroCasa: Yup.number().required(),
+      provinciaId: Yup.string(),
+      municipioId: Yup.string(),
+      bairroId: Yup.string()
     });
     if(!(await schema.isValid(req.body))){
         return res.status(400).json("error validator!");
     };
     try {
       const  enderecoRepository = getCustomRepository(EnderecoRepository)
-      const { rua, numeroCasa } = req.body;
-      //const existEndereco = await  enderecoRepository.findOne({where: { rua:rua && numeroCasa:numeroCasa } })
-      //if ( existEndereco) {
-      //  return res.status(404).json({message:'Endereco já existente!'})
-      //}
+      const  provinciaRepository = getCustomRepository(ProvinciaRepository)
+      const  municipioRepository = getCustomRepository(MunicipioRepository)
+      const  bairroRepository = getCustomRepository(BairroRepository)
+      const { rua, numeroCasa, provinciaId, municipioId, bairroId } = req.body;
+      const existProvincia = await  provinciaRepository.findOne({where: {id: provinciaId } })
+      if (!existProvincia) {
+        return res.status(404).json({message:'Provincia não encontrado!'})
+      }
+      const existMunicipio = await  municipioRepository.findOne({where: {id: municipioId } })
+      if (!existMunicipio) {
+        return res.status(404).json({message:'Municipio não encontrado!'})
+      }
+      const existBairro = await  bairroRepository.findOne({where: {id: bairroId } })
+      if (!existBairro) {
+        return res.status(404).json({message:'Bairro não encontrado!'})
+      }
       const Endereco =  enderecoRepository.create({
-        rua,
-        numeroCasa,
+        rua, 
+        numeroCasa, 
+        provinciaId, 
+        municipioId, 
+        bairroId
       });
       await enderecoRepository.save(Endereco)
       return res.status(201).json(Endereco)
@@ -60,20 +80,53 @@ class EnderecoController {
   };
 
   async update(req: Request, res: Response) {
+    const schema = Yup.object().shape({
+      rua: Yup.string().required(),
+      numeroCasa: Yup.number().required(),
+      provinciaId: Yup.string(),
+      municipioId: Yup.string(),
+      bairroId: Yup.string()
+    });
+    if(!(await schema.isValid(req.body))){
+        return res.status(400).json("error validator!");
+    };
     try {
-      const schema = Yup.object().shape({
-        rua: Yup.string().required(),
-        numeroCasa: Yup.number().required(),
-      });
-      if(!(await schema.isValid(req.body))){
-          return res.status(400).json("error validator!");
-      };
+      const  enderecoRepository = getCustomRepository(EnderecoRepository)
+      const  provinciaRepository = getCustomRepository(ProvinciaRepository)
+      const  municipioRepository = getCustomRepository(MunicipioRepository)
+      const  bairroRepository = getCustomRepository(BairroRepository)
       const { id } = req.params;
-      const { rua, numeroCasa } = req.body
-      const enderecoRepository = getCustomRepository(EnderecoRepository)
+      const {
+        rua, 
+        numeroCasa, 
+        provinciaId, 
+        municipioId, 
+        bairroId
+      } = req.body
+      const existProvincia = await  provinciaRepository.findOne({where: {id: provinciaId } })
+      if (!existProvincia) {
+        return res.status(404).json({message:'Provincia não encontrado!'})
+      }
+      const existMunicipio = await  municipioRepository.findOne({where: {id: municipioId } })
+      if (!existMunicipio) {
+        return res.status(404).json({message:'Municipio não encontrado!'})
+      }
+      const existBairro = await  bairroRepository.findOne({where: {id: bairroId } })
+      if (!existBairro) {
+        return res.status(404).json({message:'Bairro não encontrado!'})
+      } 
       const endereco = await enderecoRepository.findOne(id)
       const updateOneEndereco = 1
-      const Endereco= await  enderecoRepository.update({ id },{ rua, numeroCasa})
+      const Endereco= await  enderecoRepository.update(
+        { id },
+        {
+          rua, 
+          numeroCasa, 
+          provinciaId, 
+          municipioId, 
+          bairroId
+        }
+        )
       if(Endereco.affected === updateOneEndereco) {
         const enderecoUpdate = await enderecoRepository.findOne({id})
         return res.status(200).json({endereco, enderecoUpdate})
