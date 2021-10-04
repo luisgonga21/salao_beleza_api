@@ -18,28 +18,20 @@ class SessaoController {
       where: { description: contacto },
     });
     if (!contactoExists) {
-      return res.status(400).json({ error: 'Login ou senha inválido1!' });
+      return res.status(400).json({ error: 'Login ou senha inválido!' });
     }
     const usuario = await usuarioRepository.findOne({
       where: { id: contactoExists.usuarioId },
     });
-
-    //const typeentity = await typeentityRepository.findOne({
-    //  where: { id: entity?.typeentityId },
-    //});
-
-    //if (typeentity?.description.toLocaleLowerCase() === 'salão') {
-    //  return res.status(401).json({ errror: 'Login não autorizado!' });
-    //}
     const login = await loginRepository.findOne({
       where: { usuarioId: contactoExists.usuarioId },
     });
     if(!login) {
-      return res.status(400).json({ error: 'Login ou senha inválido2!' });
+      return res.status(400).json({ error: 'Login ou senha inválido!' });
     }
     const isValidPassword = bcrypt.compareSync(password, login.password);
     if (!isValidPassword) {
-      return res.status(401).json({ error: 'Login ou senha inválido3!' });
+      return res.status(401).json({ error: 'Login ou senha inválido!' });
     }
 
     const token = jwt.sign(

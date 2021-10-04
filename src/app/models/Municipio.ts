@@ -11,6 +11,7 @@ import { Column,
   UpdateDateColumn 
 } from "typeorm";
 import Bairro from './Bairro';
+import Endereco from './Endereco';
 import Provincia from './Provincia';
 
 
@@ -42,6 +43,9 @@ class Municipio {
 
   @OneToMany(() => Bairro, (bairro) => bairro)
   Bairros: Bairro[];
+
+  @OneToMany(() => Endereco, (endereco) => endereco)
+  Enderecos: Endereco[];
   
   @CreateDateColumn()
   createdAt: Timestamp;
