@@ -3,11 +3,13 @@ import { Column,
     Entity,
     JoinColumn,
     ManyToOne,
+    OneToMany,
     OneToOne,
     PrimaryGeneratedColumn, 
     Timestamp, 
     UpdateDateColumn 
   } from "typeorm";
+import Agendamento from "./Agendamento";
 import Cargo from "./Cargo";
 import Endereco from "./Endereco";
 import Login from "./Login";
@@ -93,6 +95,10 @@ import TipoUsuario from "./TipoUsuario";
 
     @OneToOne(() => Login, (login) => login)
     Login: Login[];
+
+    @OneToMany(() => Agendamento, (agendamento) => agendamento)
+    Agendamentos: Agendamento[];
+
   
     @CreateDateColumn()
     createdAt: Timestamp;
