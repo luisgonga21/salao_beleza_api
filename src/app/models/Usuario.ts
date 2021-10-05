@@ -99,7 +99,9 @@ import TipoUsuario from "./TipoUsuario";
     @OneToMany(() => Agendamento, (agendamento) => agendamento)
     Agendamentos: Agendamento[];
 
-  
+    @OneToMany(() => Agendamento, (AgendamentoCliente) => AgendamentoCliente)
+    AgendamentoCliente: Agendamento[];
+
     @CreateDateColumn()
     createdAt: Timestamp;
   

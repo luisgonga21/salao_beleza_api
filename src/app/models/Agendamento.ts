@@ -35,6 +35,15 @@ import { Column,
     @JoinColumn({ name: 'funcionarioId' })
     FuncionarioId: Usuario;
 
+    @Column({
+      type: "uuid",
+      nullable: false,
+    })
+    clienteId: string;
+    @ManyToOne(() => Usuario, (cliente) => cliente, { eager: true })
+    @JoinColumn({ name: 'clienteId' })
+    ClienteId: Usuario;
+
     @CreateDateColumn()
     createdAt: Timestamp;
   
