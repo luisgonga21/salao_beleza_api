@@ -10,13 +10,14 @@ class PagarSalarioController {
     try {
       const schema = Yup.object().shape({
         numeroTransacao: Yup.string(),
-        valorPago: Yup.number().required()
+        valorPago: Yup.number().required(),
+        tipoPagamentoId: Yup.string()
       });
       if(!(await schema.isValid(req.body))){
         return res.status(400).json("error validator!");
       };
       const  pagarSalarioRepository = getCustomRepository(PagarSalarioRepository)
-      const { valorPago, numeroTransacao } = req.body;
+      const { valorPago, numeroTransacao, tipoPagamentoId } = req.body;
       const existPagarSalario = await  pagarSalarioRepository.findOne({ valorPago })
       if (existPagarSalario) {
         return res.status(404).json({message:'Salario já existente!'})
@@ -25,7 +26,8 @@ class PagarSalarioController {
       const PagarSalario =  pagarSalarioRepository.create({
         valorPago, 
         valorFalta: recebe*2,
-        numeroTransacao
+        numeroTransacao,
+        tipoPagamentoId
       });
       await pagarSalarioRepository.save(PagarSalario)
       return res.status(201).json(PagarSalario)
