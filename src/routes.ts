@@ -33,7 +33,7 @@ routes.get("/", (req: Request, res: Response) => {
 const upload = multer(multerconfig);
 
 
-// FICHEIROS
+// FICHEIROS LUÍS GONGA MENDES DONO DESSA API
 routes.post("/ficheiro/:tipoFicheiroId", upload.single("file"),  Ficheiro_controller.store);
 routes.get("/ficheiro", Ficheiro_controller.index);
 routes.get("/ficheiro/:id", Ficheiro_controller.getOne);
@@ -48,7 +48,7 @@ routes.put("/tipocontacto/:id", TipoContacto_controller.update);
 routes.delete("/tipocontacto/:id", TipoContacto_controller.delete);
 
 
-// TIPO USUARIO
+// TIPO USUARIO LUÍS GONGA MENDES DONO DESSA API
 routes.post("/tipousuario", TipoUsuario_controller.store);
 routes.get("/tipousuario", TipoUsuario_controller.index);
 routes.get("/tipousuario/:id", TipoUsuario_controller.getOne);
@@ -56,21 +56,21 @@ routes.put("/tipousuario/:id", TipoUsuario_controller.update);
 routes.delete("/tipousuario/:id", TipoUsuario_controller.delete);
 
 
-// PROVINCIA
+// PROVINCIA LUÍS GONGA MENDES DONO DESSA API
 routes.post("/provincia", Provincia_controller.store);
 routes.get("/provincia", Provincia_controller.index);
 routes.get("/provincia/:id", Provincia_controller.getOne);
 routes.put("/provincia/:id", Provincia_controller.update);
 routes.delete("/provincia/:id", Provincia_controller.delete);
 
-// MUNICIPIO
+// MUNICIPIO LUÍS GONGA MENDES DONO DESSA API
 routes.post("/municipio", Municipio_controller.store);
 routes.get("/municipio", Municipio_controller.index);
 routes.get("/municipio/:id", Municipio_controller.getOne);
 routes.put("/municipio/:id", Municipio_controller.update);
 routes.delete("/municipio/:id", Municipio_controller.delete);
 
-// BAIRRO
+// BAIRRO LUÍS GONGA MENDES DONO DESSA API
 routes.post("/bairro", Bairro_controller.store);
 routes.get("/bairro", Bairro_controller.index);
 routes.get("/bairro/:id", Bairro_controller.getOne);
@@ -78,7 +78,7 @@ routes.put("/bairro/:id", Bairro_controller.update);
 routes.delete("/bairro/:id", Bairro_controller.delete);
 
 
-// ENDERECO
+// ENDERECO LUÍS GONGA MENDES DONO DESSA API
 routes.post("/endereco", Endereco_controller.store);
 routes.get("/endereco", Endereco_controller.index);
 routes.get("/endereco/:id", Endereco_controller.getOne);
@@ -86,7 +86,7 @@ routes.put("/endereco/:id", Endereco_controller.update);
 routes.delete("/endereco/:id", Endereco_controller.delete);
 
 
-// Cargo
+// Cargo LUÍS GONGA MENDES DONO DESSA API
 routes.post("/cargo", Cargo_controller.store);
 routes.get("/cargo", Cargo_controller.index);
 routes.get("/cargo/:id", Cargo_controller.getOne);
@@ -94,7 +94,7 @@ routes.put("/cargo/:id", Cargo_controller.update);
 routes.delete("/cargo/:id", Cargo_controller.delete);
 
 
-// SERVIÇOS
+// SERVIÇOS LUÍS GONGA MENDES DONO DESSA API
 routes.post("/servico", Servico_controller.store);
 routes.get("/servico", Servico_controller.index);
 routes.get("/servico/:id", Servico_controller.getOne);
@@ -102,7 +102,7 @@ routes.put("/servico/:id", Servico_controller.update);
 routes.delete("/servico/:id", Servico_controller.delete);
 
 
-// SALÃO
+// SALÃO LUÍS GONGA MENDES DONO DESSA API
 routes.post("/salao", Salao_controller.store);
 routes.get("/salao", Salao_controller.index);
 routes.get("/salao/:id", Salao_controller.getOne);
@@ -126,13 +126,13 @@ routes.put("/agendamento/:id", Agendamento_controller.update);
 routes.delete("/agendamento/:id", Agendamento_controller.delete);
 
 
-// LOGIN
+// LOGIN LUÍS GONGA MENDES DONO DESSA API
 routes.post("/login", Login_controller.store);
 routes.get("/login", Login_controller.index);
 routes.put("/login/:id", Login_controller.update);
 
 
-//SESSÃO
+//SESSÃO LUÍS GONGA MENDES DONO DESSA API
 routes.post("/sessao", Sessao_controller.store);
 
 //USUARIO
@@ -144,7 +144,7 @@ routes.delete("/usuario/:id", Usuario_controller.delete);
 
 
 
-// TIPO PAGAMENTO
+// TIPO PAGAMENTO LUÍS GONGA MENDES DONO DESSA API
 routes.post("/tipoPagamento", TipoPagamento_controller.store);
 routes.get("/tipoPagamento", TipoPagamento_controller.index);
 routes.get("/tipoPagamento/:id", TipoPagamento_controller.getOne);
@@ -152,7 +152,7 @@ routes.put("/tipoPagamento/:id", TipoPagamento_controller.update);
 routes.delete("/tipoPagamento/:id", TipoPagamento_controller.delete);
 
 
-// Permissão
+// Permissão LUÍS GONGA MENDES DONO DESSA API
 routes.post("/permissao", Permissao_controller.store);
 routes.get("/permissao", Permissao_controller.index);
 routes.get("/permissao/:id", Permissao_controller.getOne);
@@ -160,7 +160,7 @@ routes.put("/permissao/:id", Permissao_controller.update);
 routes.delete("/permissao/:id", Permissao_controller.delete);
 
 
-// TIPO DE USURÁIO
+// TIPO DE USURÁIO LUÍS GONGA MENDES DONO DESSA API
 routes.post("/permissaoTipoUsuario", PermissaoTipoUsuario_controller.store);
 routes.get("/permissaoTipoUsuario", PermissaoTipoUsuario_controller.index);
 routes.get("/permissaoTipoUsuario/:id", PermissaoTipoUsuario_controller.getOne);
@@ -176,7 +176,7 @@ routes.put("/tipoFicheiro/:id", TipoFicheiro_controller.update);
 routes.delete("/tipoFicheiro/:id", TipoFicheiro_controller.delete);
 
 
-// CONTACTO
+// CONTACTO LUÍS GONGA MENDES DONO DESSA API
 routes.post("/contacto/:tipoContactoId", Contacto_controller.store);
 routes.get("/contacto", Contacto_controller.index);
 routes.get("/contacto/:id", Contacto_controller.getOne);

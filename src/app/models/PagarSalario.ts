@@ -1,11 +1,14 @@
 import { Column, 
     CreateDateColumn, 
     Entity,
+    JoinColumn,
+    ManyToOne,
     OneToMany, 
     PrimaryGeneratedColumn, 
     Timestamp, 
     UpdateDateColumn 
   } from "typeorm";
+import TipoPagamento from "./TipoPagamento";
   
   @Entity("pagarSalario")
   class PagarSalario {
@@ -35,6 +38,15 @@ import { Column,
         nullable: false
     })
     dataPagamento: Date;
+
+    @Column({
+      type: "uuid",
+      nullable: false,
+    })
+    tipoPagamentoId: string;
+    @ManyToOne(() => TipoPagamento, (tipoPagamento) => tipoPagamento, { eager: true })
+    @JoinColumn({ name: 'tipoPagamentoId' })
+    TipoPagamentoId: TipoPagamento;
   
   }
   
