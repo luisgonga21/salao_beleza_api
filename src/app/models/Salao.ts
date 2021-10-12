@@ -5,12 +5,13 @@ import { Column,
     JoinTable,
     ManyToMany,
     ManyToOne,
-    OneToMany, 
+    OneToOne, 
     PrimaryGeneratedColumn, 
     Timestamp, 
     UpdateDateColumn 
   } from "typeorm";
 import Endereco from "./Endereco";
+import Ficheiro from "./Ficheiro"
    
   @Entity("salao")
   class Salao {
@@ -65,6 +66,15 @@ import Endereco from "./Endereco";
     @ManyToOne(() => Endereco, (endereco) => endereco, { eager: true })
     @JoinColumn({ name: 'enderecoId' })
     EnderecoId: Endereco;
+
+    @Column({
+        type: "uuid",
+        nullable: false,
+    })
+    logotipoId: string;
+    @OneToOne(() => Ficheiro, (ficheiro) => ficheiro, { eager: true })
+    @JoinColumn({ name: 'logotipoId' })
+    LogotipoId: Ficheiro;
     
     @CreateDateColumn()
     createdAt: Timestamp;
