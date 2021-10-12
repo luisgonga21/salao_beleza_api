@@ -4,6 +4,7 @@ import { getCustomRepository } from 'typeorm'
 import SalaoRepository from '../../repositories/SalaoRepository';
 import * as Yup from "yup";
 import EnderecoRepository from '../../repositories/EnderecoRepository';
+import FicheiroRepository from '../../repositories/FicheiroRepository';
 
 
 class SalaoController {
@@ -15,7 +16,8 @@ class SalaoController {
       telefone2: Yup.number().required(),
       email: Yup.string().required(),
       quantidadeFuncionario: Yup.number().required(),
-      enderecoId: Yup.string()
+      enderecoId: Yup.string(),
+      logotipoId: Yup.string()
     });
     if(!(await schema.isValid(req.body))){
       return res.status(400).json("error validator!");
@@ -23,6 +25,7 @@ class SalaoController {
     try {
       const salaoRepository = getCustomRepository(SalaoRepository)
       const enderecoRepository = getCustomRepository(EnderecoRepository)
+      const ficheiroRepository = getCustomRepository(FicheiroRepository)
       const { 
         name, 
         nif, 
@@ -30,15 +33,20 @@ class SalaoController {
         telefone1, 
         telefone2, 
         quantidadeFuncionario, 
-        enderecoId 
+        enderecoId,
+        logotipoId
       } = req.body
       const ExisteEndereco = await enderecoRepository.findOne({where: {id: enderecoId }})
       const existSalao = await  salaoRepository.findOne({ nif })
+      const ExisteLogotipo = await ficheiroRepository.findOne({where: {id: logotipoId }})
       if (!ExisteEndereco) {
         return res.status(404).json({message:'Endereço não encontrado!'})
       }
       if (existSalao) {
         return res.status(404).json({message:'Salao já existente!'})
+      }
+      if (!ExisteLogotipo) {
+        return res.status(404).json({message:'Logotipo não encontrado!'})
       }
       const Salao =  salaoRepository.create({
         name, 
@@ -47,7 +55,8 @@ class SalaoController {
         telefone1, 
         telefone2, 
         quantidadeFuncionario,
-        enderecoId
+        enderecoId,
+        logotipoId
       });
       await salaoRepository.save(Salao)
       return res.status(201).json(Salao)
@@ -94,17 +103,18 @@ class SalaoController {
         telefone2: Yup.number().required(),
         email: Yup.string().required(),
         quantidadeFuncionario: Yup.number().required(),
-        enderecoId: Yup.string()
+        enderecoId: Yup.string(),
+        logotipoId: Yup.string()
       });
       if(!(await schema.isValid(req.body))){
         return res.status(400).json("error validator!");
       };
       const { id } = req.params;
-      const { name, nif, email, telefone1, telefone2, quantidadeFuncionario, enderecoId } = req.body
+      const { name, nif, email, telefone1, telefone2, quantidadeFuncionario, enderecoId, logotipoId } = req.body
       const salaoRepository = getCustomRepository(SalaoRepository)
       const salao = await salaoRepository.findOne(id)
       const updateOneSalao = 1
-      const Salao= await  salaoRepository.update({id},{name, nif, email, telefone1, telefone2, quantidadeFuncionario, enderecoId })
+      const Salao= await  salaoRepository.update({id},{name, nif, email, telefone1, telefone2, quantidadeFuncionario, enderecoId, logotipoId })
       if(Salao.affected === updateOneSalao) {
         const salaoUpdate = await salaoRepository.findOne({id})
         return res.status(200).json({salao, salaoUpdate})
