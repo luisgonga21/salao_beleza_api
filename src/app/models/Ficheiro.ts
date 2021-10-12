@@ -4,12 +4,14 @@ import {
     Entity, 
     JoinColumn, 
     ManyToOne, 
+    OneToOne,
     PrimaryGeneratedColumn, 
     Timestamp, 
     UpdateDateColumn 
   } from "typeorm";
 import TipoFicheiro from "./TipoFicheiro";
-   
+import Salao from "./Salao"
+
   @Entity('ficheiro')
   class Ficheiro {
     @PrimaryGeneratedColumn('uuid')
@@ -35,6 +37,9 @@ import TipoFicheiro from "./TipoFicheiro";
     @ManyToOne(() => TipoFicheiro, (tipoFicheiro) => tipoFicheiro, { eager: true })
     @JoinColumn({ name: 'tipoFicheiroId' })
     TipoFicheiroId: TipoFicheiro;
+
+    @OneToOne(() => Salao, (salao) => salao)
+    Salao: Salao[];
       
     @CreateDateColumn()
     createdAt: Timestamp;
