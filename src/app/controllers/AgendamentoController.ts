@@ -18,9 +18,6 @@ class AgendamentoController {
       const  agendamentoRepository = getCustomRepository(AgendamentoRepository)
       const { dataAgendamento, funcionarioId } = req.body;
       const atendente = await  usuarioRepository.findOne({ where: { id: funcionarioId }})
-      if (atendente) {
-        return res.status(404).json({message:'Agendamento já existente!'})
-      }
       const Agendamento =  agendamentoRepository.create({
         dataAgendamento,
       });
