@@ -1,8 +1,9 @@
 import { Request, Response } from 'express'
 import { getCustomRepository } from 'typeorm'
 import AgendamentoRepository from '../../repositories/AgendamentoRepository';
-import * as Yup from "yup";
 import UsuarioRepository from '../../repositories/UsuarioRepository';
+import * as Yup from "yup";
+//import { auth } from "../middlewares/auth";
 
 class AgendamentoController {
   async store(req: Request, res: Response) {
@@ -17,21 +18,25 @@ class AgendamentoController {
       };
       const  usuarioRepository = getCustomRepository(UsuarioRepository)
       const  agendamentoRepository = getCustomRepository(AgendamentoRepository)
-      const { dataAgendamento, funcionarioId, clienteId } = req.body;
-      
-      const atendente1 = await  usuarioRepository.findOne({ where: { id: funcionarioId }})
-      const atendentes = await atendente1.TipoUsuarioId.name
-      if( atendentes === "Funcionário"){
-        console.log("ola entrou na condicao", atendentes)
+      const { dataAgendamento, funcionarioId } = req.body;
+      //const clientes = await  usuarioRepository.findOne({ where: { id: clienteId }})
+      const atendente = await  usuarioRepository.findOne({ where: { id: funcionarioId }})
+      const cargo = await atendente.CargoId.name
+      console.log("cargos --->", cargo)
+      //if(!clientes){
+      //  return res.status(404).json({ message: "Cliente não existente!" })
+      //}
+      if(cargo === "Caixa"){
+        const Agendamento =  agendamentoRepository.create({
+          //id: req.usuarioId, como pegar o id da middlewares de autenticação ?
+          dataAgendamento,
+          clienteId: null,
+          funcionarioId
+        });
+        await agendamentoRepository.save(Agendamento)
+        return res.status(201).json(Agendamento)
       }
-      //const atendente = await  usuarioRepository.findOne({ where: { id: funcionarioId }})
-      const Agendamento =  agendamentoRepository.create({
-        dataAgendamento,
-        clienteId,
-        funcionarioId
-      });
-      await agendamentoRepository.save(Agendamento)
-      return res.status(201).json(Agendamento)
+      return res.status(401).json({ message: "Funcionário não autorizado!"})
     }catch (error) {
       return res.status(404).json("error!"+error)
     }
