@@ -1,8 +1,10 @@
+import { Request, Response } from 'express'
+import { getCustomRepository } from 'typeorm'
 import jwt  from "jsonwebtoken";
 import { promisify } from "util";
 import authConfig from "../../config/authConfig";
 
-module.exports = {
+class auth {
   async auth(req, res, next) {
     const authHeader = req.headers.authorization;
     if (!authHeader) {
@@ -18,5 +20,7 @@ module.exports = {
     } catch (err) {
       return res.status(400).json({ error: "token inválido " });
     }
-  },
+  }
 };
+
+export default new auth;

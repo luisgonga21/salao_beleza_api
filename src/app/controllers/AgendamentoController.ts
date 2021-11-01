@@ -3,7 +3,7 @@ import { getCustomRepository } from 'typeorm'
 import AgendamentoRepository from '../../repositories/AgendamentoRepository';
 import UsuarioRepository from '../../repositories/UsuarioRepository';
 import * as Yup from "yup";
-//import { auth } from "../middlewares/auth";
+import auth from "../middlewares/auth";
 
 class AgendamentoController {
   async store(req: Request, res: Response) {
@@ -26,28 +26,31 @@ class AgendamentoController {
       //if(!clientes){
       //  return res.status(404).json({ message: "Cliente não existente!" })
       //}
-      if(cargo === "Caixa"){
-        const Agendamento =  agendamentoRepository.create({
-          //id: req.usuarioId, como pegar o id da middlewares de autenticação ?
-          dataAgendamento,
-          clienteId: null,
-          funcionarioId
-        });
-        await agendamentoRepository.save(Agendamento)
-        return res.status(201).json(Agendamento)
+      if(cargo != "Caixa"){
+        return res.status(401).json({ message: "Funcionário não autorizado!"})
       }
-      return res.status(401).json({ message: "Funcionário não autorizado!"})
+      const Agendamento =  agendamentoRepository.create({
+        //id: req.usuarioId, como pegar o id da middlewares de autenticação ?
+        //dataAgendamento,
+        clienteId: null,
+        funcionarioId,
+      });
+      await agendamentoRepository.save(Agendamento)
+      return res.status(201).json(Agendamento)
     }catch (error) {
       return res.status(404).json("error!"+error)
     }
   };
 
-
   async index(req: Request, res: Response) {
     try {
       const agendamentoRepository = getCustomRepository(AgendamentoRepository)
       const existAgendamento = await agendamentoRepository.find()
-        return res.status(200).json(existAgendamento) 
+      if (existAgendamento) {
+        const result = existAgendamento
+        return res.status(200).json(result)
+      }
+      return res.status(402).json({ message: "Agendamento não encontrado!" })  
     }catch (error) {
       return res.status(404).json("error!")
     }
