@@ -120,7 +120,7 @@ routes.delete("/pagarsalario/:id", PagarSalario_controller.delete);
 
 // AGENDAMENTO DE SERVIÇOS
 routes.post("/agendamento", Agendamento_controller.store);
-routes.get("/agendamento", Agendamento_controller.index);
+routes.get("/agendamentos", Agendamento_controller.index);
 routes.get("/agendamento/:id", Agendamento_controller.getOne);
 routes.put("/agendamento/:id", Agendamento_controller.update);
 routes.delete("/agendamento/:id", Agendamento_controller.delete);
